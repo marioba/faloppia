@@ -4,6 +4,7 @@ import plivo
 from time import sleep
 
 from utils import StandardAlertLevels
+from utils import ApiStatuses
 
 
 class MessageSender(object):
@@ -98,12 +99,14 @@ class MessageSender(object):
 
         logging.debug(params)
 
-        p = plivo.RestAPI(
-            self.config.plivio_auth_id, self.config.plivio_auth_token)
-        # response = p.send_message(params)
-        response = 202, params
+        if self.config.fake_api:
+            response = self.config.fake_api_return, params
+        else:
+            p = plivo.RestAPI(
+                self.config.plivio_auth_id, self.config.plivio_auth_token)
+            response = p.send_message(params)
 
-        if response[0] != 202:
+        if response[0] not in ApiStatuses.ok:
             retry = retry - 1
             seconds = (self.RETRY - retry) * self.WAIT_FACTOR
             sleep(seconds)

@@ -10,3 +10,7 @@ class StandardAlertLevels:
     it = -1
     no_alert = 0
     general = 1
+
+
+class ApiStatuses:
+    ok = [202]

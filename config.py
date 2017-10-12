@@ -3,13 +3,15 @@ from utils.utils import parse_yaml
 
 
 class Config(object):
-    def __init__(self):
+    def __init__(self, config_file=None):
         # add each attribute of config.yml to Config
         # this can be used like this
         # c = Config()
         # c.alert_numbers
         dir_path = os.path.dirname(os.path.realpath(__file__))
-        file_path = os.path.join(dir_path, 'config.yml')
+        if config_file is None:
+            config_file = 'config.yml'
+        file_path = os.path.join(dir_path, config_file)
         config = parse_yaml(file_path)
         config['log_file'] = os.path.join(dir_path, 'logs', 'river_warn.log')
         self.__dict__.update(config)
@@ -17,3 +19,7 @@ class Config(object):
     def __setattr__(self, name, value):
         # forbid changing configurations
         raise AttributeError("%s is an immutable attribute." % name)
+
+    def set_fake_api_call(self, fake=True, return_status=202):
+        self.__dict__['fake_api'] = fake
+        self.__dict__['fake_api_return'] = return_status
