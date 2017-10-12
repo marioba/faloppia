@@ -64,8 +64,7 @@ class MessageSender(object):
             # remove duplicates
             receivers = list(set(receivers))
 
-            response = self._plivio_send(
-                alert_text, self.config.sender_number, receivers, retry)
+            response = self._plivio_send(alert_text, receivers, retry)
 
             logging.debug(response)
             self.responses['main'] = response
@@ -75,11 +74,11 @@ class MessageSender(object):
             logging.fatal(e)
             raise FatalError(alert_text)
 
-    def _plivio_send(self, alert_text, sender, receivers, retry=RETRY):
+    def _plivio_send(self, alert_text, receivers, retry=RETRY):
         """
-        this sends an SMS using plivo.com
+        Sends an SMS using plivo.com
+
         :param alert_text:
-        :param sender:
         :param receivers:
         :param retry:
         :return:
@@ -93,7 +92,7 @@ class MessageSender(object):
 
         params = {
             'dst': receivers,
-            'src': sender,
+            'src': self.config.sender_number,
             'text': alert_text
         }
 
@@ -108,7 +107,7 @@ class MessageSender(object):
             retry = retry - 1
             seconds = (self.RETRY - retry) * self.WAIT_FACTOR
             sleep(seconds)
-            self._plivio_send(alert_text, sender, receivers, retry)
+            self._plivio_send(alert_text, receivers, retry)
 
         return response
 
