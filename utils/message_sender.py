@@ -1,12 +1,15 @@
 import logging
-from time import sleep
-
 import plivo
+
+from time import sleep
 
 from utils import StandardAlertLevels
 
 
 class MessageSender(object):
+    """
+    Class used to send alerts to users
+    """
     RETRY = 10  # how many times will we rettry calling the send_message API
     # (RETRY+1)*(RETRY/2)*WAIT_FACTOR is the maximum waiting time in seconds
     # in case of API problems. for 10 and 0.5 it is 27.5
@@ -18,6 +21,13 @@ class MessageSender(object):
                           'config_errors': []}
 
     def send(self, alert_level, alert_text, retry=RETRY):
+        """
+
+        :param alert_level:
+        :param alert_text:
+        :param retry:
+        :return:
+        """
         try:
             receivers = []
             if alert_level == StandardAlertLevels.it:
@@ -103,16 +113,29 @@ class MessageSender(object):
         return response
 
     def send_config_error(self, message):
-            message = '{} - IT problem: {}'.format(
-                self.config.app_name, message)
-            logging.warn(message)
-            response = MessageSender(self.config).send(
-                StandardAlertLevels.it, message)
-            self.responses['config_errors'].append(response)
+        """
+
+        :param message:
+        :return:
+        """
+        message = '{} - IT problem: {}'.format(
+            self.config.app_name, message)
+        logging.warn(message)
+        responses = MessageSender(self.config).send(
+            StandardAlertLevels.it, message)
+        self.responses['config_errors'].append(responses['main'])
 
 
 class APISendError(RuntimeError):
+    """
+    Error caused to the API not returning success codes
+    """
     def __init__(self, message, retry):
+        """
+
+        :param message:
+        :param retry:
+        """
         text = 'After trying {} times I had to give up trying sending "{}"'
         text = text.format(retry, message)
 
@@ -122,7 +145,14 @@ class APISendError(RuntimeError):
 
 
 class FatalError(RuntimeError):
+    """
+    Error to signal a major problem that needs to be somehow reported
+    """
     def __init__(self, message):
+        """
+
+        :param message:
+        """
         # Call the base class constructor with the parameters it needs
         super(FatalError, self).__init__(message)
         logging.fatal(message)
