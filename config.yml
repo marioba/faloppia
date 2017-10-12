@@ -1,0 +1,32 @@
+app_name: "FaloppiaWarn"
+
+# PLIVIO SMS Framework
+plivio_auth_id: "SANME2YTDKYZHJYZEWZG"
+plivio_auth_token: "OWMxNDM4OGY4NTEzYWU2NGZkNjMyYzY2NTA0ZDQ5"
+
+
+# SMS numbers
+sender_number: "41792158388"
+alert_numbers:
+  level_0:
+    # this numbers receive an sms each time a calculation is run even if the
+    # result of the analysis is StandardAlertLevels.no_alert
+    # it is used for debugging
+  level_1:
+    - "+41794672470"
+    # - "+41791960173"
+  level_2:
+    - "+41791960173"
+
+it_alert_numbers:
+  # this is for technical issues
+  - "+41794672470"
+  - "+41791960173"
+
+# {0} is replaced with the url of the website
+alert_text: "Allerta Faloppia. Info: {0}"
+
+# can be FATAL, ERROR, WARNING, INFO, DEBUG, NOTSET
+log_level: 'DEBUG'
+
+
