@@ -15,6 +15,7 @@ class Config(object):
         config = parse_yaml(file_path)
         config['log_file'] = os.path.join(dir_path, 'logs', 'river_warn.log')
         self.__dict__.update(config)
+        self.__dict__['fake_api'] = False
 
     def __setattr__(self, name, value):
         # forbid changing configurations

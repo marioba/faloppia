@@ -5,15 +5,17 @@ from utils.message_sender import MessageSender, FatalError
 
 
 class TestMessageSender(TestCase):
-    CONFIG = Config('test_config.yml')
 
     def test_send(self):
-        self.CONFIG.set_fake_api_call(True, 202)
-        text = self.CONFIG.alert_text.format('http://berna.io')
+        config = Config('test_config.yml')
+        config.set_fake_api_call(True, 202)
+        ms = MessageSender(config)
+        ms.WAIT_FACTOR = 0.01
         alert_level = 3
-        responses = MessageSender(self.CONFIG).send(alert_level, text)
+        text = config.alert_text.format('http://berna.io')
+        responses = ms.send(alert_level, text)
         expected = {'main': (202, {'src': '+41791234566',
-                                   'dst': '+41791234569<+41791234568<+41791234567',
+                                   'dst': '+41791234568<+41791234567',
                                    'text': 'Alerta Info: http://berna.io'}),
                     'config_errors': [
                         (202, {'src': '+41791234566', 'dst': '+41791234568',
@@ -21,8 +23,15 @@ class TestMessageSender(TestCase):
         self.assertDictEqual(responses, expected)
 
     def test_failed_send(self):
-        self.CONFIG.set_fake_api_call(True, 400)
-        ms = MessageSender(self.CONFIG)
+        config = Config('test_config.yml')
+        config.set_fake_api_call(True, 400)
+        ms = MessageSender(config)
         ms.WAIT_FACTOR = 0.01
         with self.assertRaises(FatalError):
             ms.send(1, 'text')
+
+    def test_no_receivers(self):
+        config = Config('test_config.yml')
+        ms = MessageSender(config)
+        with self.assertRaises(FatalError):
+            ms._plivio_send('text', receivers=[])

@@ -24,6 +24,7 @@ class MessageSender(object):
     def send(self, alert_level, alert_text, retry=RETRY):
         """
 
+        :param receivers:
         :param alert_level:
         :param alert_text:
         :param retry:
@@ -57,18 +58,19 @@ class MessageSender(object):
                         message = message.format(level)
                         logging.info(message)
 
-            if not receivers and level != StandardAlertLevels.no_alert:
-                message = 'No alarm numbers set for {}'
-                message = message.format(alert_text)
-                self.send_config_error(message)
-
             # remove duplicates
             receivers = list(set(receivers))
 
-            response = self._plivio_send(alert_text, receivers, retry)
+            if receivers:
+                response = self._plivio_send(alert_text, receivers, retry)
+                self.responses['main'] = response
+            else:
+                if level != StandardAlertLevels.no_alert:
+                    message = 'No alarm numbers set for {}'
+                    message = message.format(alert_text)
+                    self.send_config_error(message)
 
-            logging.debug(response)
-            self.responses['main'] = response
+            logging.debug(self.responses)
             return self.responses
 
         except Exception as e:
@@ -87,6 +89,9 @@ class MessageSender(object):
 
         if retry == 0:
             raise APISendError(alert_text, self.RETRY)
+
+        if not receivers:
+            raise FatalError('No receivers were passed')
 
         if isinstance(receivers, list):
             receivers = '<'.join(receivers)
@@ -123,8 +128,8 @@ class MessageSender(object):
         message = '{} - IT problem: {}'.format(
             self.config.app_name, message)
         logging.warn(message)
-        responses = MessageSender(self.config).send(
-            StandardAlertLevels.it, message)
+        responses = MessageSender(self.config).send(StandardAlertLevels.it,
+                                                    message)
         self.responses['config_errors'].append(responses['main'])
 
 
