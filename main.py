@@ -5,7 +5,7 @@ from flask import Flask
 
 
 from config import Config
-from utils.send_sms import MessageSender
+from utils.message_sender import MessageSender
 
 CONFIG = Config()
 

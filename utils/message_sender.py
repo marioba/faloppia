@@ -2,7 +2,6 @@ import logging
 import plivo
 
 from utils import StandardAlertLevels
-from utils import FatalError
 
 
 class MessageSender(object):
@@ -85,7 +84,7 @@ class MessageSender(object):
         p = plivo.RestAPI(
             self.config.plivio_auth_id, self.config.plivio_auth_token)
         #response = p.send_message(params)
-        response = "SENDING DISABLED in send_sms.py"
+        response = "SENDING DISABLED in message_sender.py"
 
         if response[0] != 202:
             retry = retry - 1
@@ -108,4 +107,11 @@ class APISendError(RuntimeError):
 
         # Call the base class constructor with the parameters it needs
         super(APISendError, self).__init__(text)
+        logging.fatal(message)
+
+
+class FatalError(RuntimeError):
+    def __init__(self, message):
+        # Call the base class constructor with the parameters it needs
+        super(FatalError, self).__init__(message)
         logging.fatal(message)
