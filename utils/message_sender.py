@@ -1,4 +1,6 @@
 import logging
+from time import sleep
+
 import plivo
 
 from utils import StandardAlertLevels
@@ -6,9 +8,14 @@ from utils import StandardAlertLevels
 
 class MessageSender(object):
     RETRY = 10  # how many times will we rettry calling the send_message API
+    # (RETRY+1)*(RETRY/2)*WAIT_FACTOR is the maximum waiting time in seconds
+    # in case of API problems. for 10 and 0.5 it is 27.5
+    WAIT_FACTOR = 0.5
 
     def __init__(self, config):
         self.config = config
+        self.responses = {'main': None,
+                          'config_errors': []}
 
     def send(self, alert_level, alert_text, retry=RETRY):
         try:
@@ -51,7 +58,8 @@ class MessageSender(object):
                 alert_text, self.config.sender_number, receivers, retry)
 
             logging.debug(response)
-            return response
+            self.responses['main'] = response
+            return self.responses
 
         except Exception as e:
             logging.fatal(e)
@@ -83,11 +91,13 @@ class MessageSender(object):
 
         p = plivo.RestAPI(
             self.config.plivio_auth_id, self.config.plivio_auth_token)
-        #response = p.send_message(params)
-        response = "SENDING DISABLED in message_sender.py"
+        # response = p.send_message(params)
+        response = 202, params
 
         if response[0] != 202:
             retry = retry - 1
+            seconds = (self.RETRY - retry) * self.WAIT_FACTOR
+            sleep(seconds)
             self._plivio_send(alert_text, sender, receivers, retry)
 
         return response
@@ -95,14 +105,15 @@ class MessageSender(object):
     def send_config_error(self, message):
             message = '{} - IT problem: {}'.format(
                 self.config.app_name, message)
+            logging.warn(message)
             response = MessageSender(self.config).send(
                 StandardAlertLevels.it, message)
-            logging.warn(message)
+            self.responses['config_errors'].append(response)
 
 
 class APISendError(RuntimeError):
     def __init__(self, message, retry):
-        text = 'After trying {} times I had to give up trying sending {}'
+        text = 'After trying {} times I had to give up trying sending "{}"'
         text = text.format(retry, message)
 
         # Call the base class constructor with the parameters it needs
