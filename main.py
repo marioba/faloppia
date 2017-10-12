@@ -23,6 +23,7 @@ def main():
     alert_level = 3
     params, response = MessageSender(CONFIG).send(alert_level, text)
     print(type(response))
+    print(response)
     #parsed = json.loads(response)
 
     return "1"#json.dumps(parsed, indent=4, sort_keys=True)

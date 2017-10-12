@@ -6,22 +6,24 @@ plivio_auth_token: "OWMxNDM4OGY4NTEzYWU2NGZkNjMyYzY2NTA0ZDQ5"
 
 
 # SMS numbers
-sender_number: "41792158388"
+sender_number: "+41792158388"
 alert_numbers:
   level_0:
     # this numbers receive an sms each time a calculation is run even if the
     # result of the analysis is StandardAlertLevels.no_alert
     # it is used for debugging
+    - "+41794672470"
   level_1:
     - "+41794672470"
-    # - "+41791960173"
-  level_2:
     - "+41791960173"
+  level_2:
+    - "+41794672470"
+    # - "+41791960173"
 
 it_alert_numbers:
-  # this is for technical issues
+  # this is for technical issues on the software side
   - "+41794672470"
-  - "+41791960173"
+  #- "+41791960173"
 
 # {0} is replaced with the url of the website
 alert_text: "Allerta Faloppia. Info: {0}"

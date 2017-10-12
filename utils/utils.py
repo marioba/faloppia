@@ -1,3 +1,4 @@
+import logging
 import yaml
 
 
@@ -12,5 +13,8 @@ class StandardAlertLevels:
     general = 1
 
 
-class RiverWarnRuntimeError(RuntimeError):
-    pass
+class FatalError(RuntimeError):
+    def __init__(self, message):
+        # Call the base class constructor with the parameters it needs
+        super(FatalError, self).__init__(message)
+        logging.fatal(message)
