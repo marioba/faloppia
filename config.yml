@@ -43,3 +43,5 @@ parsers:
     update: 5
     data_path: "data/cpc"
   OASI:
+    update: 5
+    data_path: "data/oasi"
