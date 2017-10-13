@@ -10,12 +10,11 @@ CONFIG = Config()
 
 # TODO REMOVE FAKE STUFF
 CONFIG.set_fake_api_call()
-# TODO REMOVE FAKE STUFF
-CONFIG.set_fake_api_call()
 FAKE_TEXTS = [
     'nothing special happening',
     'some rain coming',
     'heavy rain coming']
+# END REMOVE FAKE STUFF
 
 
 alert_level = randint(0, 2)
