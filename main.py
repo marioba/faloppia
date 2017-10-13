@@ -1,21 +1,29 @@
+import datetime
 import logging
+import os
 from random import randint
-
 from functools import wraps
-from flask import request, Response
+
 
 # Flask stuff
+import pytz
+from flask import request, Response, send_from_directory
 from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import Navbar, View
 
+
 # Local stuff
 from config import Config
 from utils.message_sender import MessageSender
-from utils.utils import log_event
 
-CONFIG = Config()
+app = Flask(__name__)
+Bootstrap(app)
+nav = Nav()
+nav.init_app(app)
+
+CONFIG = Config(app.root_path)
 
 # TODO REMOVE FAKE STUFF
 CONFIG.set_fake_api_call()
@@ -30,11 +38,6 @@ logging.basicConfig(filename=CONFIG.debug_log_file)
 logging.getLogger().addHandler(logging.StreamHandler())
 log_level = logging.getLevelName(CONFIG.log_level)
 logging.getLogger().setLevel(log_level)
-
-app = Flask(__name__)
-Bootstrap(app)
-nav = Nav()
-nav.init_app(app)
 
 
 def check_auth(username, password, config):
@@ -64,7 +67,6 @@ def requires_auth(f):
     return decorated
 
 
-
 @nav.navigation()
 def navigation_bar():
     return Navbar(
@@ -88,11 +90,13 @@ def index():
 
 
 @app.route('/about')
+@requires_auth
 def about():
     return render_template('about.html', config=CONFIG)
 
 
 @app.route('/history')
+@requires_auth
 def history():
     try:
         with open(CONFIG.events_log_file, 'r') as f:
@@ -100,6 +104,24 @@ def history():
     except FileNotFoundError:
         log = 'No events recorded yet'
     return render_template('history.html', config=CONFIG, log=log)
+
+
+@app.route('/data/<path:directory>/<path:filename>')
+@requires_auth
+def data_file(directory, filename):
+    path = os.path.join(app.root_path, 'data', directory)
+    return send_from_directory(
+        path,
+        filename
+    )
+
+
+def log_event(level, text):
+    now = datetime.datetime.now(pytz.utc)
+    now = now.strftime('%Y-%m-%d %H:%M:%S')
+    text = '{}, New alert level {}, {}\n'.format(now, level, text)
+    with open(CONFIG.events_log_file, 'a') as f:
+        f.write(text)
 
 
 if __name__ == '__main__':

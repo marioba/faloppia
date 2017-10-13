@@ -1,13 +1,7 @@
 # -*- coding: utf-8 -*-
 
-import datetime
-import pytz
+import os
 import yaml
-
-
-def parse_yaml(path):
-    with open(path, 'r') as stream:
-        return yaml.safe_load(stream)
 
 
 def remove_duplicates(list_with_duplicates):
@@ -18,12 +12,15 @@ def remove_duplicates(list_with_duplicates):
     return no_duplicates
 
 
-def log_event(level, text):
-    now = datetime.datetime.now(pytz.utc)
-    now = now.strftime('%Y-%m-%d %H:%M:%S')
-    text = '{}, New alert level {}, {}\n'.format(now, level, text)
-    with open('/home/marco/dev/faloppia/logs/river_warn_events.log', 'a') as f:
-        f.write(text)
+def parse_yaml(path):
+    with open(path, 'r') as stream:
+        return yaml.safe_load(stream)
+
+
+def list_dir(directory):
+    files = [f for f in os.listdir(directory) if os.path.isfile(f)]
+    print(sorted(files))
+    return files
 
 
 class StandardAlertLevels:
@@ -34,3 +31,5 @@ class StandardAlertLevels:
 
 class ApiStatuses:
     ok = [202]
+
+
