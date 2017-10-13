@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-
+import logging
 import os
 import yaml
 
@@ -33,3 +33,8 @@ class ApiStatuses:
     ok = [202]
 
 
+def setup_logging(config):
+    logging.basicConfig(filename=config.debug_log_file)
+    logging.getLogger().addHandler(logging.StreamHandler())
+    log_level = logging.getLevelName(config.log_level)
+    logging.getLogger().setLevel(log_level)

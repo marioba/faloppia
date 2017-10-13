@@ -6,11 +6,9 @@ from utils.message_sender import MessageSender, FatalError
 
 
 class TestMessageSender(TestCase):
-    root_dir = os.path.dirname(os.path.realpath(__file__))
-    root_dir = os.path.join(root_dir, '..')
 
     def test_send(self):
-        config = Config(self.root_dir, 'test_config.yml')
+        config = Config(config_file='test_config.yml')
         config.set_fake_api_call(True, 202)
         ms = MessageSender(config)
         ms.WAIT_FACTOR = 0.01
@@ -32,7 +30,7 @@ class TestMessageSender(TestCase):
         self.assertDictEqual(responses, expected)
 
     def test_send_wrong_alert_level(self):
-        config = Config(self.root_dir, 'test_config.yml')
+        config = Config(config_file='test_config.yml')
         config.set_fake_api_call(True, 202)
         ms = MessageSender(config)
         ms.WAIT_FACTOR = 0.01
@@ -55,7 +53,7 @@ class TestMessageSender(TestCase):
         self.assertDictEqual(responses, expected)
 
     def test_failed_send(self):
-        config = Config(self.root_dir, 'test_config.yml')
+        config = Config(config_file='test_config.yml')
         config.set_fake_api_call(True, 400)
         ms = MessageSender(config)
         ms.WAIT_FACTOR = 0.01
@@ -63,7 +61,7 @@ class TestMessageSender(TestCase):
             ms.send_alert(1, 'text')
 
     def test_no_receivers(self):
-        config = Config(self.root_dir, 'test_config.yml')
+        config = Config(config_file='test_config.yml')
         ms = MessageSender(config)
         with self.assertRaises(FatalError):
             ms._plivo_send('text', receivers=[])

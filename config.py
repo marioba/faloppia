@@ -4,11 +4,14 @@ from utils.utils import parse_yaml
 
 
 class Config(object):
-    def __init__(self, dir_path, config_file=None):
+    def __init__(self, dir_path=None, config_file=None):
         # add each attribute of config.yml to Config
         # this can be used like this
         # c = Config()
         # c.alert_numbers
+
+        if dir_path is None:
+            dir_path = os.path.dirname(os.path.realpath(__file__))
         if config_file is None:
             config_file = 'config.yml'
         file_path = os.path.join(dir_path, config_file)
