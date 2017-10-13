@@ -1,11 +1,12 @@
 import logging
 from random import randint
 
+from functools import wraps
+from flask import request, Response
+
 # Flask stuff
 from flask import Flask, render_template
-
 from flask_bootstrap import Bootstrap
-
 from flask_nav import Nav
 from flask_nav.elements import Navbar, View
 
@@ -13,7 +14,6 @@ from flask_nav.elements import Navbar, View
 from config import Config
 from utils.message_sender import MessageSender
 from utils.utils import log_event
-
 
 CONFIG = Config()
 
@@ -31,11 +31,39 @@ logging.getLogger().addHandler(logging.StreamHandler())
 log_level = logging.getLevelName(CONFIG.log_level)
 logging.getLogger().setLevel(log_level)
 
-
 app = Flask(__name__)
 Bootstrap(app)
 nav = Nav()
 nav.init_app(app)
+
+
+def check_auth(username, password, config):
+    """This function is called to check if a username /
+    password combination is valid.
+    :param config:
+    """
+    return username == config.username and password == config.password
+
+
+def authenticate():
+    """Sends a 401 response that enables basic auth"""
+    return Response(
+        'Could not verify your access level for that URL.\n'
+        'You have to login with proper credentials', 401,
+        {'WWW-Authenticate': 'Basic realm="Login Required"'})
+
+
+def requires_auth(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        auth = request.authorization
+        if not auth or not check_auth(auth.username, auth.password, CONFIG):
+            return authenticate()
+        return f(*args, **kwargs)
+
+    return decorated
+
+
 
 @nav.navigation()
 def navigation_bar():
@@ -48,6 +76,7 @@ def navigation_bar():
 
 
 @app.route('/')
+@requires_auth
 def index():
     alert_level = randint(0, 2)
     text = FAKE_TEXTS[alert_level]
@@ -55,7 +84,7 @@ def index():
     log_event(alert_level, text)
     response = MessageSender(CONFIG).send_alert(alert_level, text)
 
-    return render_template('index.html', config=CONFIG, response=response)
+    return render_template('index.html', config=CONFIG)
 
 
 @app.route('/about')

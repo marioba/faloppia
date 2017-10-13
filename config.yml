@@ -5,6 +5,10 @@ plivo_auth_id: "SANME2YTDKYZHJYZEWZG"
 plivo_auth_token: "OWMxNDM4OGY4NTEzYWU2NGZkNjMyYzY2NTA0ZDQ5"
 
 
+#Authentication
+username: faloppia
+password: alveo666
+
 # SMS numbers
 sender_number: "+41792158388"
 alert_numbers:
