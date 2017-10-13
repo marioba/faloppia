@@ -154,7 +154,7 @@ class APISendError(RuntimeError):
         text = text.format(retry, message)
 
         # Call the base class constructor with the parameters it needs
-        super(APISendError, self).__init__(text)
+        super().__init__(text)
         logging.fatal(message)
 
 
@@ -168,6 +168,6 @@ class FatalError(RuntimeError):
         :param message:
         """
         # Call the base class constructor with the parameters it needs
-        super(FatalError, self).__init__(message)
+        super().__init__(message)
         logging.fatal(message)
 

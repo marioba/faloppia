@@ -6,8 +6,8 @@ plivo_auth_token: "OWMxNDM4OGY4NTEzYWU2NGZkNjMyYzY2NTA0ZDQ5"
 
 
 #Authentication
-username: faloppia
-password: alveo666
+username: 'faloppia'
+password: 'alveo666'
 
 # SMS numbers
 sender_number: "+41792158388"
@@ -19,7 +19,7 @@ alert_numbers:
     - "+41794672470"
   level_1:
     - "+41794672470"
-    - "+41791960173"
+    # - "+41791960173"
   level_2:
     - "+41794672470"
     # - "+41791960173"
@@ -41,11 +41,19 @@ alert_text:
 # can be FATAL, ERROR, WARNING, INFO, DEBUG, NOTSET
 log_level: 'DEBUG'
 
+timezone: 'Europe/Zurich'
 
 parsers:
-  CombiPrecip:
+  cpc:
+    active: false
     update: 5
     data_path: "data/cpc"
-  OASI:
+  oasi:
+    active: true
     update: 5
     data_path: "data/oasi"
+    timespan: 1
+  meteogram:
+    active: false
+    update: 5
+    data_path: "data/meteogram"
