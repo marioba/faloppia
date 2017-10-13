@@ -25,11 +25,14 @@ it_alert_numbers:
   - "+41794672470"
   #- "+41791960173"
 
-# {0} is replaced with the url of the website
+
+# {} is replaced with the details of the alert
 alert_text:
-  level_0: "Notifica Faloppia. Info: {0}"
-  level_1: "Allerta Faloppia. Info: {0}"
-  level_2: "ALLARME Faloppia. Info: {0}"
+  level_-1: "IT Problem, {}"
+  level_0: "Notifica, {}"
+  level_1: "Allerta, {}"
+  level_2: "ALLARME, {}"
+
 
 # can be FATAL, ERROR, WARNING, INFO, DEBUG, NOTSET
 log_level: 'DEBUG'

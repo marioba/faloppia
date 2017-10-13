@@ -13,7 +13,10 @@ class Config(object):
             config_file = 'config.yml'
         file_path = os.path.join(dir_path, config_file)
         config = parse_yaml(file_path)
-        config['log_file'] = os.path.join(dir_path, 'logs', 'river_warn.log')
+        config['debug_log_file'] = os.path.join(
+            dir_path, 'logs', 'river_warn_debug.log')
+        config['events_log_file'] = os.path.join(
+            dir_path, 'logs', 'river_warn_events.log')
         self.__dict__.update(config)
         self.__dict__['fake_api'] = False
 

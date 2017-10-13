@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<METEOSWISS>
+ <ALERT client="warnregionen_NE1" accu="accu_0180">
+  <HEADER>
+    <time>162920400</time>
+    <seconds>1476763200</seconds>
+    <past_minutes>120</past_minutes>
+    <forecast_minutes>60</forecast_minutes>
+    <past_prd>RZC</past_prd>
+    <past_prd_time>162920400</past_prd_time>
+    <forecast_prd>INCA</forecast_prd>
+    <forecast_prd_time>162920400</forecast_prd_time>
+    <forecast_produced_time>162920350</forecast_produced_time>
+    <update_time>10</update_time>
+    <latency_time>30</latency_time>
+    <test_statistic>Q1km</test_statistic>
+    <test_thresholds>20.00-30.00-50.00-70.00</test_thresholds>
+    <preprocessed>W7M</preprocessed>
+  </HEADER>
+  <DATA>
+    <Region ID="Region_101">
+      <alert_level>0</alert_level>
+      <latest_fab_level>0</latest_fab_level>
+      <previous_fab_level>0</previous_fab_level>
+      <test_stat>0.11</test_stat>
+      <perc_past_R>41</perc_past_R>
+      <mean_rain>0.04</mean_rain>
+      <sum_rain>10.44</sum_rain>
+      <plausibility_reg_rain>1</plausibility_reg_rain>
+    </Region>
+  </DATA>
+</ALERT>
+ <ALERT client="warnregionen_NE2" accu="accu_1440">
+  <HEADER>
+    <time>162920400</time>
+    <seconds>1476763200</seconds>
+    <past_minutes>1080</past_minutes>
+    <forecast_minutes>360</forecast_minutes>
+    <past_prd>CPC</past_prd>
+    <past_prd_time>162920350</past_prd_time>
+    <forecast_prd>INCA</forecast_prd>
+    <forecast_prd_time>162920400</forecast_prd_time>
+    <forecast_produced_time>162920350</forecast_produced_time>
+    <update_time>60</update_time>
+    <latency_time>120</latency_time>
+    <test_statistic>Q1km</test_statistic>
+    <test_thresholds>30.00-50.00-80.00-110.00</test_thresholds>
+    <preprocessed>W9M</preprocessed>
+  </HEADER>
+  <DATA>
+    <Region ID="Region_102">
+      <alert_level>0</alert_level>
+      <latest_fab_level>0</latest_fab_level>
+      <previous_fab_level>0</previous_fab_level>
+      <test_stat>7.85</test_stat>
+      <perc_past_R>96</perc_past_R>
+      <mean_rain>6.78</mean_rain>
+      <sum_rain>1960.35</sum_rain>
+      <plausibility_reg_rain>1</plausibility_reg_rain>
+    </Region>
+  </DATA>
+</ALERT>
+</METEOSWISS>
