@@ -1,8 +1,8 @@
 app_name: "FaloppiaWarn"
 
-# PLIVIO SMS Framework
-plivio_auth_id: "SANME2YTDKYZHJYZEWZG"
-plivio_auth_token: "OWMxNDM4OGY4NTEzYWU2NGZkNjMyYzY2NTA0ZDQ5"
+# PLIVO SMS Framework
+plivo_auth_id: "SANME2YTDKYZHJYZEWZG"
+plivo_auth_token: "OWMxNDM4OGY4NTEzYWU2NGZkNjMyYzY2NTA0ZDQ5"
 
 
 # SMS numbers
@@ -26,9 +26,17 @@ it_alert_numbers:
   #- "+41791960173"
 
 # {0} is replaced with the url of the website
-alert_text: "Allerta Faloppia. Info: {0}"
+alert_text:
+  level_0: "Notifica Faloppia. Info: {0}"
+  level_1: "Allerta Faloppia. Info: {0}"
+  level_2: "ALLARME Faloppia. Info: {0}"
 
 # can be FATAL, ERROR, WARNING, INFO, DEBUG, NOTSET
 log_level: 'DEBUG'
 
 
+parsers:
+  CombiPrecip:
+    update: 5
+    data_path: "data/cpc"
+  OASI:

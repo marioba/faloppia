@@ -6,6 +6,14 @@ def parse_yaml(path):
         return yaml.safe_load(stream)
 
 
+def remove_duplicates(list_with_duplicates):
+    no_duplicates = []
+    for e in list_with_duplicates:
+        if e not in no_duplicates:
+            no_duplicates.append(e)
+    return no_duplicates
+
+
 class StandardAlertLevels:
     it = -1
     no_alert = 0

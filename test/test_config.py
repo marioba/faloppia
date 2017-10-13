@@ -11,13 +11,14 @@ class TestConfig(TestCase):
             'app_name',
             'it_alert_numbers',
             'log_level',
-            'plivio_auth_id',
-            'plivio_auth_token',
+            'plivo_auth_id',
+            'plivo_auth_token',
             'sender_number'
         ]
         c = Config()
         for key in mandatory_keys:
             self.assertTrue(hasattr(c, key), '{} is not in config'.format(key))
+            self.assertTrue(c.__dict__[key], '{} is empty: '.format(key))
 
     def test___setattr__(self):
         c = Config()

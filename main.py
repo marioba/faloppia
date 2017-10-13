@@ -21,7 +21,7 @@ app = Flask(__name__)
 def main():
     text = CONFIG.alert_text.format('http://berna.io')
     alert_level = 3
-    params, response = MessageSender(CONFIG).send(alert_level, text)
+    params, response = MessageSender(CONFIG).send_alert(alert_level, text)
     print(type(response))
     print(response)
     #parsed = json.loads(response)
