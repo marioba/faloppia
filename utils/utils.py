@@ -1,3 +1,7 @@
+# -*- coding: utf-8 -*-
+
+import datetime
+import pytz
 import yaml
 
 
@@ -12,6 +16,14 @@ def remove_duplicates(list_with_duplicates):
         if e not in no_duplicates:
             no_duplicates.append(e)
     return no_duplicates
+
+
+def log_event(level, text):
+    now = datetime.datetime.now(pytz.utc)
+    now = now.strftime('%Y-%m-%d %H:%M:%S')
+    text = '{}, New alert level {}, {}\n'.format(now, level, text)
+    with open('/home/marco/dev/faloppia/logs/river_warn_events.log', 'a') as f:
+        f.write(text)
 
 
 class StandardAlertLevels:
