@@ -26,7 +26,6 @@ class OasiParser(BaseParser):
 
     def check_data(self):
         last_time, last_value = self.data[-1]
-        last_value = 6.001
         thresholds = self.settings['thresholds']
         for alert_level, ts in thresholds.items():
             alert_level = int(alert_level.split('_')[-1])
