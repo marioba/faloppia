@@ -19,7 +19,7 @@ class BaseParser(object):
         return self.config.parsers[parser]
 
     def _send_alert(self, level, text):
-        self.manager.log_event(alert_level, text)
+        self.manager.log_alert(level, text)
         MessageSender(self.config).send_alert(level, text)
 
     def run(self):

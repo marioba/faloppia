@@ -32,6 +32,14 @@ class ParsersManager(object):
         text = 'New {}, {}'.format(title, text)
         self._log_event(text)
 
+    def _log_event(self, text):
+        tz = pytz.timezone(self.config.timezone)
+        now = datetime.datetime.now(tz)
+        now = now.strftime('%Y-%m-%d %H:%M:%S%z')
+        text = '{}, {}\n'.format(now, text)
+        with open(self.config.events_log_file, 'a') as f:
+            f.write(text)
+
     def _instantiate_parser(self, parser_name):
         parser_module = importlib.import_module(
             'parsers.{}'.format(parser_name))
@@ -46,14 +54,7 @@ class ParsersManager(object):
                 active_parsers[k] = self._instantiate_parser(k)
         return active_parsers
 
-    def _log_event(self, text):
-        tz = pytz.timezone(self.config.timezone)
-        now = datetime.datetime.now(tz)
-        now = now.strftime('%Y-%m-%d %H:%M:%S%z')
-        text = '{}, {}'.format(now, text)
-        with open(CONFIG.events_log_file, 'a') as f:
-            f.write(text)
 
-
-manager = ParsersManager(CONFIG)
-manager.run()
+if __name__ == '__main__':
+    manager = ParsersManager(CONFIG)
+    manager.run()

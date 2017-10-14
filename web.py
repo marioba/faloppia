@@ -6,13 +6,15 @@ from flask import (Flask,
                    render_template,
                    request,
                    Response,
-                   send_from_directory)
+                   send_from_directory, redirect)
+from flask.helpers import url_for
 from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import Navbar, View
 
 # Local stuff
 from config import Config
+from parsers_manager import ParsersManager
 from utils.utils import setup_logging
 
 # init application
@@ -56,6 +58,7 @@ def navigation_bar():
     return Navbar(
         CONFIG.app_name,
         View('Status', 'index'),
+        View('Reparse', 'parse'),
         View('History', 'history'),
         View('About', 'about'),
     )
@@ -87,7 +90,9 @@ def history():
 @APP.route('/parse')
 @requires_auth
 def parse():
-    return render_template('about.html', config=CONFIG)
+    manager = ParsersManager(CONFIG)
+    manager.run()
+    return redirect(url_for('index'))
 
 
 @APP.route('/data/<path:directory>/<path:filename>')
