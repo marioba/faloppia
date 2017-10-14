@@ -7,8 +7,8 @@ from parsers.base_parser import BaseParser
 
 
 class OasiParser(BaseParser):
-    def __init__(self, config):
-        super().__init__(config)
+    def __init__(self, manager):
+        super().__init__(manager)
 
     def run(self):
         yesterday = self.now - timedelta(self.settings['timespan'])
