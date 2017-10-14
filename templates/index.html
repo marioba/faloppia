@@ -1,8 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
     <h1>Current situation</h1>
-    <img src="{{ url_for('data_file', directory='meteogram', filename='meteog-sr_Stabio.png') }}" />
-    <img src="{{ url_for('data_file', directory='meteogram', filename='meteog-mr_Stabio.png') }}" />
+    <div id="myChart"></div><a class="zc-ref" href="https://www.zingchart.com">Powered by ZingChart</a>
+    <img src="{{ url_for('data_file', filename='meteogram/meteog-sr_Stabio.png') }}"/>
+    <img src="{{ url_for('data_file', filename='meteogram/meteog-mr_Stabio.png') }}"/>
 
     {{ super() }}
+
+{% endblock %}
+{% block scripts %}
+    {{ super() }}
+    <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
+    <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
+
 {% endblock %}

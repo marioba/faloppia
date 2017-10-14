@@ -95,10 +95,10 @@ def parse():
     return redirect(url_for('index'))
 
 
-@APP.route('/data/<path:directory>/<path:filename>')
+@APP.route('/data/<path:filename>')
 @requires_auth
-def data_file(directory, filename):
-    path = os.path.join(APP.root_path, 'data', directory)
+def data_file(filename):
+    path = os.path.join(APP.root_path, 'data')
     return send_from_directory(
         path,
         filename
