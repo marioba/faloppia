@@ -3,19 +3,11 @@ import importlib
 
 import pytz
 
-from config import Config
-
-
-CONFIG = Config()
-
-# TODO REMOVE FAKE STUFF
-CONFIG.set_fake_api_call()
-# END REMOVE FAKE STUFF
-
 
 class ParsersManager(object):
     def __init__(self, config):
         self.config = config
+        self.config.set_fake_api_call()
         self.parsers = self._get_parsers()
 
     def run(self):
@@ -25,7 +17,7 @@ class ParsersManager(object):
             instance.run()
 
     def log_alert(self, level, text):
-        text = 'New alert level {}, {}'.format(level, text)
+        text = self.config.alert_text['level_{}'.format(level)].format(text)
         self._log_event(text)
 
     def log_event(self, title, text):
@@ -56,5 +48,10 @@ class ParsersManager(object):
 
 
 if __name__ == '__main__':
+    from config import Config
+
+    # TODO REMOVE FAKE STUFF
+    CONFIG = Config()
+
     manager = ParsersManager(CONFIG)
     manager.run()

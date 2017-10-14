@@ -9,14 +9,15 @@ class BaseParser(object):
     def __init__(self, manager):
         self.manager = manager
         self.config = manager.config
+        self.name = self.__module__.split('.')[-1]
         self.settings = self._get_settings()
 
         self.timezone = pytz.timezone(self.config.timezone)
         self.now = datetime.datetime.now(self.timezone)
 
     def _get_settings(self):
-        parser = self.__module__.split('.')[-1]
-        return self.config.parsers[parser]
+
+        return self.config.parsers[self.name]
 
     def _send_alert(self, level, text):
         self.manager.log_alert(level, text)
