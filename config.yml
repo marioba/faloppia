@@ -59,7 +59,7 @@ parsers:
     active: true
     update: 5
     data_path: "data/oasi"
-    timespan: 1
+    timespan: 5 # days
     thresholds:
       level_1:
         - ["{0} > 2.0 and {0} <= 5.0", "deflusso superiore ai 2.0 m3/s ({}) raggiunto alle {} -> L'impresa si prepara ad un'eventuale evacuazione e controlla l'evoluzione delle precipitazioni e del deflusso."]
