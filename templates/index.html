@@ -1,7 +1,11 @@
 {% extends "base.html" %}
+{% block styles %}
+    {{super()}}
+    <link rel="stylesheet" href="{{url_for('static', filename='css/chart.css')}}">
+{% endblock %}
 {% block content %}
     <h1>Current situation</h1>
-    <div id="myChart"></div><a class="zc-ref" href="https://www.zingchart.com">Powered by ZingChart</a>
+    <div id="water_chart"></div><a class="zc-ref" href="https://www.zingchart.com">Powered by ZingChart</a>
     <img src="{{ url_for('data_file', filename='meteogram/meteog-sr_Stabio.png') }}"/>
     <img src="{{ url_for('data_file', filename='meteogram/meteog-mr_Stabio.png') }}"/>
 

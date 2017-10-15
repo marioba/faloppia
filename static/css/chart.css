@@ -1,5 +1,9 @@
-#myChart {
+#water_chart {
     height: 100%;
     width: 100%;
     min-height: 150px;
+}
+
+.zc-ref {
+	display:none;
 }
