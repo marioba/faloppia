@@ -1,14 +1,10 @@
-import datetime
-import dateutil.parser
 import json
 import os
 
 import xml.etree.ElementTree as ET
-from datetime import datetime
 
 from parsers.base_parser import BaseParser
-from utils.utils import unix_time_millis, get_latest_file, get_elem_text, \
-    StandardAlertLevels
+from utils.utils import get_latest_file, get_elem_text, StandardAlertLevels
 
 
 class CpcParser(BaseParser):
@@ -96,13 +92,13 @@ class CpcParser(BaseParser):
             thresholds = self.settings['accus'][name]['thresholds']
             for alert_level, ts in thresholds.items():
                 alert_level = int(alert_level.split('_')[-1])
-                for value, text in ts:
-                    evaluation = value.format(data['rain'])
+                for evaluator, text in ts:
+                    evaluation = evaluator.format(data['rain'])
                     if eval(evaluation):
                         text = text.format(
                             data['rain'], data['time'])
                         text = '{} - {}'.format(self.name, text)
-                        self._send_alert(alert_level, text)
+                        self._send_alert(alert_level, text, evaluator)
 
     def _store_data(self):
         prefix = 'cpc_values='
@@ -123,4 +119,4 @@ class CpcParser(BaseParser):
 
         with open(file_path, 'w') as f:
             f.write(prefix)
-            json.dump(js_data, f)
+            json.dump(js_data, f, sort_keys=True, indent=2)

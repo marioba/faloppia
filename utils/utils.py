@@ -1,6 +1,9 @@
 # -*- coding: utf-8 -*-
+import json
 import logging
 import os
+from json.decoder import JSONDecodeError
+
 import yaml
 
 
@@ -54,3 +57,13 @@ def setup_logging(config):
 
 def unix_time_millis(dt):
     return dt.timestamp() * 1000.0
+
+
+def _get_lock_status(config):
+    try:
+        with open(config.lock_file) as lock_file:
+            lock_status = json.load(lock_file)
+    except JSONDecodeError:
+        lock_status = {}
+
+    return lock_status

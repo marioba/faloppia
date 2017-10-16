@@ -17,6 +17,7 @@ class Config(object):
         file_path = os.path.join(dir_path, config_file)
         config = parse_yaml(file_path)
         config['data_dir'] = os.path.join(dir_path, 'data')
+        config['lock_file'] = os.path.join(dir_path, 'data', 'alerts.json')
         config['debug_log_file'] = os.path.join(
             dir_path, 'logs', 'river_warn_debug.log')
         config['events_log_file'] = os.path.join(

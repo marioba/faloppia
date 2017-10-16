@@ -4,7 +4,7 @@ import json
 import os
 import urllib.request
 
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from parsers.base_parser import BaseParser
 from utils.utils import unix_time_millis
@@ -33,12 +33,12 @@ class OasiParser(BaseParser):
         thresholds = self.settings['thresholds']
         for alert_level, ts in thresholds.items():
             alert_level = int(alert_level.split('_')[-1])
-            for value, text in ts:
-                evaluation = value.format(last_value)
+            for evaluator, text in ts:
+                evaluation = evaluator.format(last_value)
                 if eval(evaluation):
                     text = text.format(last_value, last_time)
                     text = '{} - {}'.format(self.name, text)
-                    self._send_alert(alert_level, text)
+                    self._send_alert(alert_level, text, evaluator)
 
     def _store_data(self):
         js_data = []
@@ -49,10 +49,12 @@ class OasiParser(BaseParser):
             except ValueError:
                 value = None
             js_data.append([timestamp, value])
+        initial_time = self._convert_datetime(self.data[0][0])
+        initial_time = unix_time_millis(initial_time)
         file_path = os.path.join(self.settings['data_dir'], 'latest.js')
         with open(file_path, 'w') as f:
             f.write('oasi_values=')
-            json.dump(js_data, f)
+            json.dump(js_data, f, sort_keys=True, indent=2)
 
     @staticmethod
     def _convert_datetime(value):

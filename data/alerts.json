@@ -1,0 +1,14 @@
+{
+  "cpc": {
+    "2": {
+      "{0} > 5.0": {
+        "text": "cpc - precipitazione 5mm su 60min (30.93) raggiunta alle 1508152800000 -> L'impresa evacua entro 15 minuti il cantiere.",
+        "time": "2017-10-16T22:41:42.191121+02:00"
+      },
+      "{0} > 30.0": {
+        "text": "cpc - precipitazione 30 mm su 12 h (30.93) raggiunta alle 1508152800000 -> L'impresa evacua il cantiere entro 2 ore e smantella la rampa d'accesso entro 12 ore.",
+        "time": "2017-10-16T22:41:29.797573+02:00"
+      }
+    }
+  }
+}

@@ -58,11 +58,11 @@ def navigation_bar():
     return Navbar(
         CONFIG.app_name,
         View('Situazione', 'index'),
+        View('Allerte attive', 'alerts'),
         View('Informazioni', 'about'),
         View('Aggiorna', 'parse'),
         View('Storia', 'history'),
         View('Debug', 'debug'),
-
     )
 
 
@@ -76,6 +76,14 @@ def index():
 @requires_auth
 def about():
     return render_template('about.html', config=CONFIG)
+
+
+@APP.route('/alerts')
+@requires_auth
+def alerts():
+    log_file = CONFIG.lock_file
+    log = get_log(log_file)
+    return render_template('log.html', config=CONFIG, log=log)
 
 
 @APP.route('/history')

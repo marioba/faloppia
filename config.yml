@@ -47,6 +47,8 @@ parsers:
   cpc:
     active: true
     update: 300 # seconds
+    alert_lock: # dict of kwargs for timedelta
+      hours: 6
     timespan: # dict of kwargs for timedelta
       days: 5
     accus:
@@ -69,6 +71,8 @@ parsers:
   oasi:
     active: true
     update: 300 # seconds
+    alert_lock: # dict of kwargs for timedelta
+      hours: 6
     timespan: # dict of kwargs for timedelta
       days: 5
     thresholds:
