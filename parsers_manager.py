@@ -18,10 +18,10 @@ class ParsersManager(object):
             list(self.parsers.keys())))
         for name, instance in self.parsers.items():
             instance.run()  # TODO remove
-            try:
-                instance.run()
-            except Exception as e:
-                self.log_alert(StandardAlertLevels.it, str(e))
+            #try:
+             #   instance.run()
+            #except Exception as e:
+            #    self.log_alert(StandardAlertLevels.it, str(e))
 
     def log_alert(self, level, text):
         text = self.config.alert_text['level_{}'.format(level)].format(text)

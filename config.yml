@@ -49,12 +49,18 @@ parsers:
     update: 300 # seconds
     timespan: # dict of kwargs for timedelta
       days: 5
-    tresholds:
-      level_1:
-        - ["allerta precipitazione: 5 mm su 12 h (6h misurate e 6h previste)"]
-        - ["allerta precipitazione: 30 mm su 12 h (6h misurate e 6h previste)"]
-      level_2:
-        - ["allarme precipitazione: 5 mm su 60 minuti (30 minuti misurati e 30 minuti previsti)"]
+    accus:
+      accu_060:
+        thresholds:
+          level_2:
+            - ["{0} > 5.0", "allerta precipitazione: 5mm su 60min (30min misurati e 30min previsti) -> L'impresa evacua entro 15 minuti il cantiere."]
+      accu_0720:
+        thresholds:
+          level_1:
+            - ["{0} > 5.0 and {0} <= 30.0", "allerta precipitazione: 5 mm su 12 h (6h misurate e 6h previste) -> L'impresa si prepara a un'eventuale evacuazione."]
+          level_2:
+            - ["{0} > 30.0","allerta precipitazione: 30 mm su 12 h (6h misurate e 6h previste) -> h L'impresa evacua il cantiere entro 2 ore e smantella la rampa d'accesso entro 12 ore."]
+
 
   oasi:
     active: false
@@ -63,7 +69,7 @@ parsers:
       days: 5
     thresholds:
       level_1:
-        - ["{0} > 2.0 and {0} <= 5.0", "deflusso superiore ai 2.0 m3/s ({}) raggiunto alle {} -> L'impresa si prepara ad un'eventuale evacuazione e controlla l'evoluzione delle precipitazioni e del deflusso."]
+        - ["{0} > 2.0 and {0} <= 5.0", "deflusso superiore ai 2.0 m3/s ({}) raggiunto alle {} -> L'impresa si prepara ad un'eventuale evacuazione"]
       level_2:
         - ["{0} > 5.0", "deflusso superiore ai 5.0 m3/s ({}) raggiunto alle {} -> L'impresa evacua il cantiere entro 15 minuti."]
         - ["{0} < 0.1", "deflusso inferiore ai 0.1 m3/s ({}) raggiunto alle {} -> L‘impresa evacua il cantiere entro 15 minuti e smantella la rampa d'accesso entro 2 ore."]

@@ -4,7 +4,7 @@ import json
 import os
 
 import xml.etree.ElementTree as ET
-from datetime import datetime, timedelta
+from datetime import datetime
 
 from parsers.base_parser import BaseParser
 from utils.utils import unix_time_millis, get_latest_file
@@ -16,16 +16,16 @@ class CpcParser(BaseParser):
         self.data = None
 
     def run(self):
+        print('RUUUUUUUUUUUUUUUUUUn')
         now_str = self._convert_datetime(self.now)
         start_str = self._convert_datetime(self.start)
 
         self._read_data()
-        # self._check_data()
+        self._check_data()
         # self._store_data()
 
     def _read_data(self):
         latest_file = self._find_latest_xml()
-        print(latest_file)
         self.data = self._parse_xml(latest_file)
         print(self.data)
 
@@ -33,23 +33,43 @@ class CpcParser(BaseParser):
         return get_latest_file(self.settings['data_dir'], '.xml')
 
     def _parse_xml(self, filepath):
+
         tree = ET.parse(filepath)
         root = tree.getroot()
-        data = root
+        accus = self.settings['accus']
+        data = {}
+
+        for name, value in accus.items():
+            accu_data = self._parse_accu(root, name)
+            data[name] = accu_data
+
         return data
 
+    def _parse_accu(self, xml_root, accu_name):
+        data = {}
+        accu_format = "./ALERT[@accu='{}']".format(accu_name)
+        alert = xml_root.find(accu_format)
+        data['time'] = alert.find('./HEADER/time').text
+        data['rain_measured'] = alert.find('./DATA/Region/sum_rain').text
+        data['rain_forecast'] = alert.find('./DATA/Region/mean_rain').text
+        data['rain'] = data['rain_measured'] + data['rain_forecast']
+
+        return data
 
     def _check_data(self):
-        last_time, last_value = self.data[-1]
-        thresholds = self.settings['thresholds']
-        for alert_level, ts in thresholds.items():
-            alert_level = int(alert_level.split('_')[-1])
-            for value, text in ts:
-                evaluation = value.format(last_value)
-                if eval(evaluation):
-                    text = text.format(last_value, last_time)
-                    text = '{} - {}'.format(self.name, text)
-                    self._send_alert(alert_level, text)
+        for name, data in self.data.items():
+            thresholds = self.settings['accus'][name]['thresholds']
+            for alert_level, ts in thresholds.items():
+                alert_level = int(alert_level.split('_')[-1])
+                print(ts)
+                for value, text in ts:
+                    evaluation = value.format(data['rain'])
+                    print(evaluation)
+                    return
+                    if eval(evaluation):
+                        text = text.format(last_value, last_time)
+                        text = '{} - {}'.format(self.name, text)
+                        self._send_alert(alert_level, text)
 
     def _store_data(self):
         js_data = []
