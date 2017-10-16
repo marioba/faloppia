@@ -1,8 +1,0 @@
-python-dateutil
-flask
-flask-bootstrap
-flask-nav
-plivo
-pyyaml
-pytz
-json2html
