@@ -58,9 +58,11 @@ def navigation_bar():
     return Navbar(
         CONFIG.app_name,
         View('Situazione', 'index'),
+        View('Informazioni', 'about'),
         View('Aggiorna', 'parse'),
         View('Storia', 'history'),
-        View('Informazioni', 'about'),
+        View('Debug', 'debug'),
+
     )
 
 
@@ -79,12 +81,29 @@ def about():
 @APP.route('/history')
 @requires_auth
 def history():
+    log_file = CONFIG.events_log_file
+    log = get_log(log_file)
+    return render_template('log.html', config=CONFIG, log=log)
+
+
+@APP.route('/debug')
+@requires_auth
+def debug():
+    log_file = CONFIG.debug_log_file
+    log = get_log(log_file)
+    return render_template('log.html', config=CONFIG, log=log)
+
+
+def get_log(log_file):
+    empty_log = 'No events recorded yet'
     try:
-        with open(CONFIG.events_log_file, 'r') as f:
+        with open(log_file, 'r') as f:
             log = f.read()
+            if not log:
+                log = empty_log
     except FileNotFoundError:
-        log = 'No events recorded yet'
-    return render_template('history.html', config=CONFIG, log=log)
+        log = empty_log
+    return log
 
 
 @APP.route('/parse')
