@@ -1,4 +1,5 @@
 import os
+from json2html import *
 from functools import wraps
 
 # Flask stuff
@@ -83,7 +84,9 @@ def about():
 def alerts():
     log_file = CONFIG.lock_file
     log = get_log(log_file)
-    return render_template('log.html', config=CONFIG, log=log)
+    table = json2html.convert(
+        json=log, table_attributes="id=\"info-table\" class=\"table table-bordered table-hover\"")
+    return render_template('alerts.html', config=CONFIG, table=table)
 
 
 @APP.route('/history')

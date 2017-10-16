@@ -5,3 +5,4 @@ flask-nav
 plivo
 pyyaml
 pytz
+json2html

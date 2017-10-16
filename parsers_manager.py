@@ -1,10 +1,11 @@
 import datetime
 import importlib
 
+
 import pytz
 
 from utils.message_sender import MessageSender
-from utils.utils import StandardAlertLevels, setup_logging
+from utils.utils import setup_logging
 
 
 class ParsersManager(object):
