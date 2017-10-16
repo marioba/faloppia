@@ -134,8 +134,8 @@ var myConfig = {
         borderColor: '#E3E3E5',
         borderWidth: 1,
         borderRadius: 3,
-        x: '85%',
-        y: '11%',
+        x: '95%',
+        y: '5%',
         backgroundColor: '#53535e',
         cursor: 'hand',
         label: {
@@ -163,7 +163,7 @@ var myConfig = {
         }
     }, {
         text: 'Precipitationi CPC ultimi 30min - bacino imbriefero del Faloppia',
-        values: cpc_values['accu_0060']['rain'],
+        values: cpc_values['accu_0060']['past'],
         scales: 'scale-x, scale-y-2',
         lineColor: '#7D5918',
         marker: {
@@ -179,7 +179,7 @@ var myConfig = {
         }
     }, {
         text: 'Precipitationi CPC ultime 6h - area di 20 x 20 Km attorno a Novazzano',
-        values: cpc_values['accu_0720']['rain'],
+        values: cpc_values['accu_0720']['past'],
         scales: 'scale-x, scale-y-2',
         lineColor: '#246b62',
         marker: {
