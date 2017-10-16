@@ -22,5 +22,14 @@ class BaseParser(object):
     def _send_alert(self, level, text):
         self.manager.log_alert(level, text)
 
+    def _log_event(self, level, text):
+        self.manager.log_event(level, text)
+
     def run(self):
+        raise NotImplementedError
+
+    def _check_data(self):
+        raise NotImplementedError
+
+    def _store_data(self):
         raise NotImplementedError

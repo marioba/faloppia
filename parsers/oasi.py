@@ -49,11 +49,9 @@ class OasiParser(BaseParser):
             except ValueError:
                 value = None
             js_data.append([timestamp, value])
-        initial_time = self._convert_datetime(self.data[0][0])
-        initial_time = unix_time_millis(initial_time)
         file_path = os.path.join(self.settings['data_dir'], 'latest.js')
         with open(file_path, 'w') as f:
-            f.write('oasi_min_value={}\noasi_values='.format(initial_time))
+            f.write('oasi_values=')
             json.dump(js_data, f)
 
     @staticmethod

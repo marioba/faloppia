@@ -31,6 +31,10 @@ def get_latest_file(directory, file_filter):
     return files_in_dir(directory, file_filter)[-1]
 
 
+def get_elem_text(xml, xpath):
+    return xml.find(xpath).text
+
+
 class StandardAlertLevels:
     it = -1
     no_alert = 0

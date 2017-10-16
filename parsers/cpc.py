@@ -7,7 +7,8 @@ import xml.etree.ElementTree as ET
 from datetime import datetime
 
 from parsers.base_parser import BaseParser
-from utils.utils import unix_time_millis, get_latest_file
+from utils.utils import unix_time_millis, get_latest_file, get_elem_text, \
+    StandardAlertLevels
 
 
 class CpcParser(BaseParser):
@@ -21,7 +22,7 @@ class CpcParser(BaseParser):
 
         self._read_data()
         self._check_data()
-        # self._store_data()
+        self._store_data()
 
     def _read_data(self):
         latest_file = self._find_latest_xml()
@@ -44,18 +45,57 @@ class CpcParser(BaseParser):
         return data
 
     def _parse_accu(self, xml_root, accu_name):
+        """
+        In assenza di precipitazioni il modulo statistico NON viene fatto
+        partire e alcuni campi nel file XML sono assenti
+        Nella sezione <DATA> dei files presenti nel ZIP file mancano i campi:
+        - test_stat :  precipitazione (passato + futuro)  è campo da utilizzare
+        per le allerte
+        - perc_past_R : % di precipitazione (campo test_stat) caduta nel
+        passato
+        - plausibility_reg_rain :  test di plausibilità, se 0 NON utilizzare
+        per inviare allerte
+
+
+        :param xml_root:
+        :param accu_name:
+        :return:
+        """
         data = {}
         accu_format = "./ALERT[@accu='{}']".format(accu_name)
         alert = xml_root.find(accu_format)
-        data['time'] = alert.find('./HEADER/time').text
-        data['rain_measured'] = alert.find('./DATA/Region/sum_rain').text
-        data['rain_forecast'] = alert.find('./DATA/Region/mean_rain').text
-        data['rain'] = float(data['rain_measured']) + float(data['rain_forecast'])
 
+        data['time'] = int(get_elem_text(alert, './HEADER/seconds')) * 1000
+        data_section = "./DATA/Region[@ID='{}']".format(
+            self.settings['accus'][accu_name]['region'])
+        data_section = alert.find(data_section)
+
+        try:
+            rain = get_elem_text(data_section, 'test_stat')
+            percent = get_elem_text(data_section, 'perc_past_R')
+            past = rain * percent
+            plausibility = get_elem_text(data_section, 'plausibility_reg_rain')
+        except AttributeError:
+            rain = None
+            past = None
+            plausibility = None
+
+        data['rain'] = rain
+        data['past'] = past
+        data['plausibility'] = plausibility
         return data
 
     def _check_data(self):
         for name, data in self.data.items():
+            if data['plausibility'] == 0:
+                data['rain'] = None
+                data['past'] = None
+                text = 'Plausibility 0 found, skipping'
+                self._log_event(StandardAlertLevels.it, text)
+                continue
+            if data['rain'] is None:
+                continue
+
             thresholds = self.settings['accus'][name]['thresholds']
             for alert_level, ts in thresholds.items():
                 alert_level = int(alert_level.split('_')[-1])
@@ -69,8 +109,8 @@ class CpcParser(BaseParser):
 
     def _store_data(self):
         js_data = []
+        print(self.data)
         for point in self.data:
-            timestamp = unix_time_millis(self._convert_datetime(point[0]))
             try:
                 value = float(point[1])
             except ValueError:

@@ -50,11 +50,15 @@ parsers:
     timespan: # dict of kwargs for timedelta
       days: 5
     accus:
-      accu_060:
+      accu_0060:
+        name: 'bacino imbriefero del Faloppia'
+        region: 'Region_494'
         thresholds:
           level_2:
             - ["{0} > 5.0", "precipitazione 5mm su 60min ({}) raggiunta alle {} -> L'impresa evacua entro 15 minuti il cantiere."]
       accu_0720:
+        name: 'area di 20 x 20 Km attorno a Novazzano'
+        region: 'Region_495'
         thresholds:
           level_1:
             - ["{0} > 5.0 and {0} <= 30.0", "precipitazione 5 mm su 12 h ({}) raggiunta alle {} -> L'impresa si prepara a un'eventuale evacuazione."]
@@ -63,7 +67,7 @@ parsers:
 
 
   oasi:
-    active: false
+    active: true
     update: 300 # seconds
     timespan: # dict of kwargs for timedelta
       days: 5
