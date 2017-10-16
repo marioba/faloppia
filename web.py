@@ -85,7 +85,8 @@ def alerts():
     log_file = CONFIG.lock_file
     log = get_log(log_file)
     table = json2html.convert(
-        json=log, table_attributes="id=\"info-table\" class=\"table table-bordered table-hover\"")
+        json=log,
+        table_attributes='id="info-table" class="table table-bordered table-hover"')
     return render_template('alerts.html', config=CONFIG, table=table)
 
 

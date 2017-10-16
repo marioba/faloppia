@@ -25,7 +25,7 @@ class BaseParser(object):
         self.start = self.now - self.timespan
 
     def _lock_alert_type(self, level, text, evaluator):
-        level = str(level)
+        level = 'level_{}'.format(level)
         status = _get_lock_status(self.config)
 
         if self.name not in status:
@@ -42,7 +42,7 @@ class BaseParser(object):
 
     def _is_alert_locked(self, level, evaluator):
         print('checking: ', self.name, level, evaluator)
-        level = str(level)
+        level = 'level_{}'.format(level)
         if level == StandardAlertLevels.it:
             # always send IT alerts
             return False
@@ -51,7 +51,7 @@ class BaseParser(object):
         lock_expire = self.now - lock_duration
         try:
             status = _get_lock_status(self.config)
-            last_alert = status[self.name][str(level)]
+            last_alert = status[self.name][level]
             last_alert = last_alert[evaluator]
             last_alert_time = dateutil.parser.parse(last_alert['time'])
             if lock_expire < last_alert_time:

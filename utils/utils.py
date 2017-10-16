@@ -63,7 +63,7 @@ def _get_lock_status(config):
     try:
         with open(config.lock_file) as lock_file:
             lock_status = json.load(lock_file)
-    except JSONDecodeError:
+    except (JSONDecodeError, FileNotFoundError):
         lock_status = {}
 
     return lock_status
