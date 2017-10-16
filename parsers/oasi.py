@@ -44,9 +44,9 @@ class OasiParser(BaseParser):
     def _store_data(self):
         js_data = []
         for point in self.data:
-            # timestamp = self._convert_datetime(point[0]).timestamp()
+            timestamp = unix_time_millis(self._convert_datetime(point[0]))
             value = float(point[1])
-            js_data.append(value)
+            js_data.append([timestamp, value])
         initial_time = self._convert_datetime(self.data[0][0])
         initial_time = unix_time_millis(initial_time)
         file_path = os.path.join(self.config.data_dir, self.name, 'latest.js')

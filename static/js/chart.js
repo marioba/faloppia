@@ -40,7 +40,6 @@ var myConfig = {
         lineColor: '#E3E3E5',
         zooming: true,
         minValue: oasi_min_value,
-        step: '10minute',
         item: {
             fontColor: '#E3E3E5'
         },
@@ -59,7 +58,7 @@ var myConfig = {
             lineColor: '#E3E3E5'
         },
         minorGuide: {
-            visible: true,
+            visible: false,
             lineWidth: 1,
             lineColor: '#E3E3E5',
             alpha: 0.7,
@@ -83,7 +82,7 @@ var myConfig = {
             lineColor: '#E3E3E5'
         },
         minorGuide: {
-            visible: true,
+            visible: false,
             lineWidth: 1,
             lineColor: '#E3E3E5',
             alpha: 0.7,
