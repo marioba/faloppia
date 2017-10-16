@@ -2,30 +2,42 @@ import datetime
 import dateutil.parser
 import json
 import os
-import urllib.request
 
+import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 
 from parsers.base_parser import BaseParser
-from utils.utils import unix_time_millis
+from utils.utils import unix_time_millis, get_latest_file
 
 
-class OasiParser(BaseParser):
+class CpcParser(BaseParser):
     def __init__(self, manager):
         super().__init__(manager)
         self.data = None
 
     def run(self):
-        start = self.now - timedelta(self.settings['timespan'])
-        now = self._convert_datetime(self.now)
-        start_str = self._convert_datetime(start)
+        now_str = self._convert_datetime(self.now)
+        start_str = self._convert_datetime(self.start)
 
-        with urllib.request.urlopen(url) as url:
-            data = json.loads(url.read().decode())
-            data = data['ObservationCollection']['member'][0]
-            self.data = data['result']['DataArray']['values']
-        self._check_data()
-        self._store_data()
+        self._read_data()
+        # self._check_data()
+        # self._store_data()
+
+    def _read_data(self):
+        latest_file = self._find_latest_xml()
+        print(latest_file)
+        self.data = self._parse_xml(latest_file)
+        print(self.data)
+
+    def _find_latest_xml(self):
+        return get_latest_file(self.settings['data_dir'], '.xml')
+
+    def _parse_xml(self, filepath):
+        tree = ET.parse(filepath)
+        root = tree.getroot()
+        data = root
+        return data
+
 
     def _check_data(self):
         last_time, last_value = self.data[-1]

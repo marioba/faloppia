@@ -16,12 +16,11 @@ class OasiParser(BaseParser):
         self.data = None
 
     def run(self):
-        start = self.now - timedelta(self.settings['timespan'])
-        now = self._convert_datetime(self.now)
-        start_str = self._convert_datetime(start)
+        now_str = self._convert_datetime(self.now)
+        start_str = self._convert_datetime(self.start)
 
-        timespan = '{}/{}'.format(start_str, now)
-        url = 'tps://geoservice.ist.supsi.ch/psos/sos?service=SOS&version=1.0.0&request=GetObservation&offering=temporary&procedure=Q_FAL_CHIA&observedProperty=urn:ogc:def:parameter:x-istsos:1.0:river:water:discharge&responseFormat=application/json&eventTime={}'.format(timespan)
+        timespan = '{}/{}'.format(start_str, now_str)
+        url = 'https://geoservice.ist.supsi.ch/psos/sos?service=SOS&version=1.0.0&request=GetObservation&offering=temporary&procedure=Q_FAL_CHIA&observedProperty=urn:ogc:def:parameter:x-istsos:1.0:river:water:discharge&responseFormat=application/json&eventTime={}'.format(timespan)
         with urllib.request.urlopen(url) as url:
             data = json.loads(url.read().decode())
             data = data['ObservationCollection']['member'][0]
@@ -52,7 +51,7 @@ class OasiParser(BaseParser):
             js_data.append([timestamp, value])
         initial_time = self._convert_datetime(self.data[0][0])
         initial_time = unix_time_millis(initial_time)
-        file_path = os.path.join(self.config.data_dir, self.name, 'latest.js')
+        file_path = os.path.join(self.settings['data_dir'], 'latest.js')
         with open(file_path, 'w') as f:
             f.write('oasi_min_value={}\noasi_values='.format(initial_time))
             json.dump(js_data, f)

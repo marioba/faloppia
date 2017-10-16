@@ -18,10 +18,18 @@ def parse_yaml(path):
         return yaml.safe_load(stream)
 
 
-def list_dir(directory):
-    files = [f for f in os.listdir(directory) if os.path.isfile(f)]
-    print(sorted(files))
-    return files
+def files_in_dir(directory, file_filter=None):
+    files = []
+    for filename in os.listdir(directory):
+        file_path = os.path.join(directory, filename)
+        if os.path.isfile(file_path):
+            if file_filter is None or filename.endswith(file_filter):
+                files.append(os.path.join(file_path))
+    return sorted(files)
+
+
+def get_latest_file(directory, file_filter):
+    return files_in_dir(directory, file_filter)[-1]
 
 
 class StandardAlertLevels:

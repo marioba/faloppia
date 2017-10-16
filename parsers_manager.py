@@ -17,6 +17,7 @@ class ParsersManager(object):
         self.log_event('parsing started', 'using: {}'.format(
             list(self.parsers.keys())))
         for name, instance in self.parsers.items():
+            instance.run()  # TODO remove
             try:
                 instance.run()
             except Exception as e:

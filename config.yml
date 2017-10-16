@@ -45,8 +45,10 @@ timezone: 'Europe/Zurich'
 
 parsers:
   cpc:
-    active: false
-    update: 5 # minutes
+    active: true
+    update: 300 # seconds
+    timespan: # dict of kwargs for timedelta
+      days: 5
     tresholds:
       level_1:
         - ["allerta precipitazione: 5 mm su 12 h (6h misurate e 6h previste)"]
@@ -55,9 +57,10 @@ parsers:
         - ["allarme precipitazione: 5 mm su 60 minuti (30 minuti misurati e 30 minuti previsti)"]
 
   oasi:
-    active: true
-    update: 5 # minutes
-    timespan: 5 # days
+    active: false
+    update: 300 # seconds
+    timespan: # dict of kwargs for timedelta
+      days: 5
     thresholds:
       level_1:
         - ["{0} > 2.0 and {0} <= 5.0", "deflusso superiore ai 2.0 m3/s ({}) raggiunto alle {} -> L'impresa si prepara ad un'eventuale evacuazione e controlla l'evoluzione delle precipitazioni e del deflusso."]
