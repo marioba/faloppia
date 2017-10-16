@@ -24,11 +24,14 @@ class ParsersManager(object):
             #except Exception as e:
             #    self.log_alert(StandardAlertLevels.it, str(e))
 
-    def log_alert(self, level, text):
-        MessageSender(self.config).send_alert(level, text)
+    def log_alert(self, level, text, send_sms=True):
         text = self.config.alert_text['level_{}'.format(level)].format(text)
-        text = 'New SMS sent: {}'.format(text)
-        self._log_event(text)
+        if send_sms:
+            MessageSender(self.config).send_alert(level, text)
+            text = 'New SMS sent: {}'.format(text)
+            self._log_event(text)
+        else:
+            self.log_event('alert without SMS', text)
 
     def log_event(self, title, text):
         text = 'New {}, {}'.format(title, text)

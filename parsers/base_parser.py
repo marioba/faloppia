@@ -20,7 +20,11 @@ class BaseParser(object):
         self.start = self.now - self.timespan
 
     def _send_alert(self, level, text):
-        self.manager.log_alert(level, text)
+        #TODO check if the alert was send in the last 6h
+        send_sms = True
+        if last_alert_time < 6:
+            send_sms = False
+        self.manager.log_alert(level, text, send_sms)
 
     def _log_event(self, level, text):
         self.manager.log_event(level, text)

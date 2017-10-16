@@ -17,9 +17,6 @@ class CpcParser(BaseParser):
         self.data = None
 
     def run(self):
-        now_str = self._convert_datetime(self.now)
-        start_str = self._convert_datetime(self.start)
-
         self._read_data()
         self._check_data()
         self._store_data()
@@ -108,27 +105,16 @@ class CpcParser(BaseParser):
                         self._send_alert(alert_level, text)
 
     def _store_data(self):
-        js_data = []
-        print(self.data)
-        for point in self.data:
-            try:
-                value = float(point[1])
-            except ValueError:
-                value = None
-            js_data.append([timestamp, value])
-        initial_time = self._convert_datetime(self.data[0][0])
-        initial_time = unix_time_millis(initial_time)
+        prefix = 'cpc_values='
         file_path = os.path.join(self.config.data_dir, self.name, 'latest.js')
+        with open(file_path, 'r') as f:
+            data = f.read()
+            js_data = json.loads(data[len(prefix):])
+
+        for accu, data in self.data.items():
+            js_data[accu]['rain'].append([data['time'], data['rain']])
+            js_data[accu]['past'].append([data['time'], data['past']])
+
         with open(file_path, 'w') as f:
-            f.write('oasi_min_value={}\noasi_values='.format(initial_time))
+            f.write(prefix)
             json.dump(js_data, f)
-
-    @staticmethod
-    def _convert_datetime(value):
-        # '2017-10-11T01:30:00+02:00'
-        fmt = '%Y-%m-%dT%H:%M:%S%z'
-        if isinstance(value, datetime):
-            return value.strftime(fmt)
-
-        return dateutil.parser.parse(value)
-
