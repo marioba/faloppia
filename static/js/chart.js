@@ -134,7 +134,7 @@ var myConfig = {
         borderColor: '#E3E3E5',
         borderWidth: 1,
         borderRadius: 3,
-        x: '95%',
+        x: '97%',
         y: '5%',
         backgroundColor: '#53535e',
         cursor: 'hand',

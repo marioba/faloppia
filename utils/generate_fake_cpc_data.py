@@ -13,14 +13,14 @@ def gen():
         t = i*1000 + 1507734000000
         short_val = randrange(0, 50)
         long_val = short_val * randrange(100, 500) / 100.0
-        past = randrange(0,100) / 100.0
+        past = randrange(0, 100) / 100.0
         for k, v in items.items():
             if k == 'short_rain':
                 val = short_val
             elif k == 'short_past':
                 val = short_val * past
             elif k == 'long_rain':
-                val = short_val
+                val = long_val
             elif k == 'long_past':
                 val = long_val * past
             v.append([t, val])
