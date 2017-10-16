@@ -1,7 +1,16 @@
+#charts{
+    margin: 15px;
+}
+
 #water_chart {
     height: 100%;
     width: 100%;
     min-height: 150px;
+}
+
+#charts img{
+    border: thin solid darkgray;
+    margin-top: 30px;
 }
 
 .zc-ref {

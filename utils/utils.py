@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import datetime
 import logging
 import os
 import yaml
@@ -38,3 +39,7 @@ def setup_logging(config):
     logging.getLogger().addHandler(logging.StreamHandler())
     log_level = logging.getLevelName(config.log_level)
     logging.getLogger().setLevel(log_level)
+
+
+def unix_time_millis(dt):
+    return dt.timestamp() * 1000.0

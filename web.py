@@ -57,10 +57,10 @@ def requires_auth(f):
 def navigation_bar():
     return Navbar(
         CONFIG.app_name,
-        View('Status', 'index'),
-        View('Reparse', 'parse'),
-        View('History', 'history'),
-        View('About', 'about'),
+        View('Situazione', 'index'),
+        View('Aggiorna', 'parse'),
+        View('Storia', 'history'),
+        View('Informazioni', 'about'),
     )
 
 

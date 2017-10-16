@@ -7,6 +7,7 @@ import urllib.request
 from datetime import datetime, timedelta
 
 from parsers.base_parser import BaseParser
+from utils.utils import unix_time_millis
 
 
 class OasiParser(BaseParser):
@@ -43,12 +44,11 @@ class OasiParser(BaseParser):
     def _store_data(self):
         js_data = []
         for point in self.data:
-            # '2017-10-11T01:30:00+02:00'
-            print(point[0])
-            timestamp = self._convert_datetime(point[0]).timestamp()
+            # timestamp = self._convert_datetime(point[0]).timestamp()
             value = float(point[1])
             js_data.append(value)
-        initial_time = timestamp
+        initial_time = self._convert_datetime(self.data[0][0])
+        initial_time = unix_time_millis(initial_time)
         file_path = os.path.join(self.config.data_dir, self.name, 'latest.js')
         with open(file_path, 'w') as f:
             f.write('oasi_min_value={}\noasi_values='.format(initial_time))
@@ -56,10 +56,10 @@ class OasiParser(BaseParser):
 
     @staticmethod
     def _convert_datetime(value):
+        # '2017-10-11T01:30:00+02:00'
         fmt = '%Y-%m-%dT%H:%M:%S%z'
         if isinstance(value, datetime):
             return value.strftime(fmt)
-
 
         return dateutil.parser.parse(value)
 

@@ -5,7 +5,7 @@ var myConfig = {
     type: 'line',
     backgroundColor: '#2C2C39',
     title: {
-        text: 'Time Series Data with null values',
+        text: 'OASI - Stabio',
         adjustLayout: true,
         fontColor: "#E3E3E5",
         marginTop: 7
@@ -39,15 +39,14 @@ var myConfig = {
     scaleX: {
         lineColor: '#E3E3E5',
         zooming: true,
-        zoomTo: [0, 15],
         minValue: oasi_min_value,
-        step: '20minute',
+        step: '10minute',
         item: {
             fontColor: '#E3E3E5'
         },
         transform: {
             type: 'date',
-            all: '%D %M %d<br>%h:%i:%s'
+            all: '%d.%m.%Y<br>%h:%i:%s'
         }
     },
     scaleY: {
@@ -129,6 +128,7 @@ var myConfig = {
         }
     }],
     series: [{
+        text: "Deflusso m3/s",
         values: oasi_values,
         lineColor: '#E34247',
         marker: {
@@ -154,7 +154,7 @@ zingchart.render({
     id: 'water_chart',
     data: myConfig,
     height: '500',
-    width: '725'
+    width: '100%'
 });
 
 zingchart.shape_click = function (p) {
