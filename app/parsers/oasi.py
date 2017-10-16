@@ -7,7 +7,7 @@ import urllib.request
 from datetime import datetime
 
 from parsers.base_parser import BaseParser
-from utils.utils import unix_time_millis
+from app.utils.utils import unix_time_millis
 
 
 class OasiParser(BaseParser):

@@ -4,7 +4,7 @@ import os
 import xml.etree.ElementTree as ET
 
 from parsers.base_parser import BaseParser
-from utils.utils import get_latest_file, get_elem_text, StandardAlertLevels
+from app.utils.utils import get_latest_file, get_elem_text, StandardAlertLevels
 
 
 class CpcParser(BaseParser):

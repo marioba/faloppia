@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from config import Config
+from app.config import Config
 
 
 class TestConfig(TestCase):

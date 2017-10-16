@@ -1,8 +1,7 @@
-import os
 from unittest import TestCase
 
-from config import Config
-from utils.message_sender import MessageSender, FatalError
+from app.config import Config
+from app.utils.message_sender import MessageSender, FatalError
 
 
 class TestMessageSender(TestCase):

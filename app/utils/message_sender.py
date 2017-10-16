@@ -3,8 +3,8 @@ import plivo
 
 from time import sleep
 
-from utils.utils import StandardAlertLevels, remove_duplicates
-from utils.utils import ApiStatuses
+from app.utils.utils import StandardAlertLevels, remove_duplicates
+from app.utils.utils import ApiStatuses
 
 
 class MessageSender(object):

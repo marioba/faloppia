@@ -4,8 +4,8 @@ import importlib
 
 import pytz
 
-from utils.message_sender import MessageSender
-from utils.utils import setup_logging
+from app.utils.message_sender import MessageSender
+from app.utils.utils import setup_logging
 
 
 class ParsersManager(object):
@@ -62,7 +62,7 @@ class ParsersManager(object):
 
 
 if __name__ == '__main__':
-    from config import Config
+    from app.config import Config
 
     # TODO REMOVE FAKE STUFF
     CONFIG = Config()

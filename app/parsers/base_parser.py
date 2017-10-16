@@ -7,7 +7,7 @@ from json.decoder import JSONDecodeError
 
 import pytz
 
-from utils.utils import StandardAlertLevels, _get_lock_status
+from app.utils.utils import StandardAlertLevels, _get_lock_status
 
 
 class BaseParser(object):

@@ -14,9 +14,9 @@ from flask_nav import Nav
 from flask_nav.elements import Navbar, View
 
 # Local stuff
-from config import Config
-from parsers_manager import ParsersManager
-from utils.utils import setup_logging
+from app.config import Config
+from app.parsers_manager import ParsersManager
+from app.utils.utils import setup_logging
 
 # init application
 app = Flask(__name__)

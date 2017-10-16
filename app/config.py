@@ -1,6 +1,6 @@
 import os
 
-from utils.utils import parse_yaml
+from app.utils.utils import parse_yaml
 
 
 class Config(object):
