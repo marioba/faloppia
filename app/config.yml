@@ -1,0 +1,83 @@
+app_name: "FaloppiaWarn"
+
+# PLIVO SMS Framework
+plivo_auth_id: "SANME2YTDKYZHJYZEWZG"
+plivo_auth_token: "OWMxNDM4OGY4NTEzYWU2NGZkNjMyYzY2NTA0ZDQ5"
+
+
+#Authentication
+username: 'faloppia'
+password: 'alveo666'
+
+# SMS numbers
+sender_number: "+41792158388"
+alert_numbers:
+  level_0:
+    # this numbers receive an sms each time a calculation is run even if the
+    # result of the analysis is StandardAlertLevels.no_alert
+    # it is used for debugging
+    - "+41794672470"
+  level_1:
+    - "+41794672470"
+    # - "+41791960173"
+  level_2:
+    - "+41794672470"
+    # - "+41791960173"
+
+it_alert_numbers:
+  # this is for technical issues on the software side
+  - "+41794672470"
+  #- "+41791960173"
+
+
+# {} is replaced with the details of the alert
+alert_text:
+  level_-1: "IT Problem, {}"
+  level_0: "Notifica, {}"
+  level_1: "Allerta, {}"
+  level_2: "ALLARME, {}"
+
+
+# can be FATAL, ERROR, WARNING, INFO, DEBUG, NOTSET
+log_level: 'DEBUG'
+
+timezone: 'Europe/Zurich'
+
+parsers:
+  cpc:
+    active: true
+    update: 300 # seconds
+    alert_lock: # dict of kwargs for timedelta
+      hours: 6
+    timespan: # dict of kwargs for timedelta
+      days: 5
+    accus:
+      accu_0060:
+        name: 'bacino imbriefero del Faloppia'
+        region: 'Region_494'
+        thresholds:
+          level_2:
+            - ["{0} > 5.0", "precipitazione 5mm su 60min ({}) raggiunta alle {} -> L'impresa evacua entro 15 minuti il cantiere."]
+      accu_0720:
+        name: 'area di 20 x 20 Km attorno a Novazzano'
+        region: 'Region_495'
+        thresholds:
+          level_1:
+            - ["{0} > 5.0 and {0} <= 30.0", "precipitazione 5 mm su 12 h ({}) raggiunta alle {} -> L'impresa si prepara a un'eventuale evacuazione."]
+          level_2:
+            - ["{0} > 30.0","precipitazione 30 mm su 12 h ({}) raggiunta alle {} -> L'impresa evacua il cantiere entro 2 ore e smantella la rampa d'accesso entro 12 ore."]
+
+
+  oasi:
+    active: true
+    update: 300 # seconds
+    alert_lock: # dict of kwargs for timedelta
+      hours: 6
+    timespan: # dict of kwargs for timedelta
+      days: 5
+    thresholds:
+      level_1:
+        - ["{0} > 2.0 and {0} <= 5.0", "deflusso superiore ai 2.0 m3/s ({}) raggiunto alle {} -> L'impresa si prepara ad un'eventuale evacuazione"]
+      level_2:
+        - ["{0} > 5.0", "deflusso superiore ai 5.0 m3/s ({}) raggiunto alle {} -> L'impresa evacua il cantiere entro 15 minuti."]
+        - ["{0} < 0.1", "deflusso inferiore ai 0.1 m3/s ({}) raggiunto alle {} -> L‘impresa evacua il cantiere entro 15 minuti e smantella la rampa d'accesso entro 2 ore."]
