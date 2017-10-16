@@ -16,7 +16,6 @@ class CpcParser(BaseParser):
         self.data = None
 
     def run(self):
-        print('RUUUUUUUUUUUUUUUUUUn')
         now_str = self._convert_datetime(self.now)
         start_str = self._convert_datetime(self.start)
 
@@ -27,7 +26,6 @@ class CpcParser(BaseParser):
     def _read_data(self):
         latest_file = self._find_latest_xml()
         self.data = self._parse_xml(latest_file)
-        print(self.data)
 
     def _find_latest_xml(self):
         return get_latest_file(self.settings['data_dir'], '.xml')
@@ -52,7 +50,7 @@ class CpcParser(BaseParser):
         data['time'] = alert.find('./HEADER/time').text
         data['rain_measured'] = alert.find('./DATA/Region/sum_rain').text
         data['rain_forecast'] = alert.find('./DATA/Region/mean_rain').text
-        data['rain'] = data['rain_measured'] + data['rain_forecast']
+        data['rain'] = float(data['rain_measured']) + float(data['rain_forecast'])
 
         return data
 
@@ -61,13 +59,11 @@ class CpcParser(BaseParser):
             thresholds = self.settings['accus'][name]['thresholds']
             for alert_level, ts in thresholds.items():
                 alert_level = int(alert_level.split('_')[-1])
-                print(ts)
                 for value, text in ts:
                     evaluation = value.format(data['rain'])
-                    print(evaluation)
-                    return
                     if eval(evaluation):
-                        text = text.format(last_value, last_time)
+                        text = text.format(
+                            data['rain'], data['time'])
                         text = '{} - {}'.format(self.name, text)
                         self._send_alert(alert_level, text)
 

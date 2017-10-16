@@ -53,13 +53,13 @@ parsers:
       accu_060:
         thresholds:
           level_2:
-            - ["{0} > 5.0", "allerta precipitazione: 5mm su 60min (30min misurati e 30min previsti) -> L'impresa evacua entro 15 minuti il cantiere."]
+            - ["{0} > 5.0", "precipitazione 5mm su 60min ({}) raggiunta alle {} -> L'impresa evacua entro 15 minuti il cantiere."]
       accu_0720:
         thresholds:
           level_1:
-            - ["{0} > 5.0 and {0} <= 30.0", "allerta precipitazione: 5 mm su 12 h (6h misurate e 6h previste) -> L'impresa si prepara a un'eventuale evacuazione."]
+            - ["{0} > 5.0 and {0} <= 30.0", "precipitazione 5 mm su 12 h ({}) raggiunta alle {} -> L'impresa si prepara a un'eventuale evacuazione."]
           level_2:
-            - ["{0} > 30.0","allerta precipitazione: 30 mm su 12 h (6h misurate e 6h previste) -> h L'impresa evacua il cantiere entro 2 ore e smantella la rampa d'accesso entro 12 ore."]
+            - ["{0} > 30.0","precipitazione 30 mm su 12 h ({}) raggiunta alle {} -> L'impresa evacua il cantiere entro 2 ore e smantella la rampa d'accesso entro 12 ore."]
 
 
   oasi:

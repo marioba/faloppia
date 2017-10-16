@@ -4,7 +4,7 @@ import importlib
 import pytz
 
 from utils.message_sender import MessageSender
-from utils.utils import StandardAlertLevels
+from utils.utils import StandardAlertLevels, setup_logging
 
 
 class ParsersManager(object):
@@ -12,6 +12,7 @@ class ParsersManager(object):
         self.config = config
         self.config.set_fake_api_call()
         self.parsers = self._get_parsers()
+        setup_logging(config)
 
     def run(self):
         self.log_event('parsing started', 'using: {}'.format(
@@ -24,10 +25,10 @@ class ParsersManager(object):
             #    self.log_alert(StandardAlertLevels.it, str(e))
 
     def log_alert(self, level, text):
-        text = self.config.alert_text['level_{}'.format(level)].format(text)
         MessageSender(self.config).send_alert(level, text)
-        log_text = 'New SMS sent: {}'.format(text)
-        self._log_event(log_text)
+        text = self.config.alert_text['level_{}'.format(level)].format(text)
+        text = 'New SMS sent: {}'.format(text)
+        self._log_event(text)
 
     def log_event(self, title, text):
         text = 'New {}, {}'.format(title, text)
