@@ -45,7 +45,10 @@ class OasiParser(BaseParser):
         js_data = []
         for point in self.data:
             timestamp = unix_time_millis(self._convert_datetime(point[0]))
-            value = float(point[1])
+            try:
+                value = float(point[1])
+            except ValueError:
+                value = None
             js_data.append([timestamp, value])
         initial_time = self._convert_datetime(self.data[0][0])
         initial_time = unix_time_millis(initial_time)
