@@ -112,7 +112,9 @@ class CpcParser(BaseParser):
             js_data = json.loads(data[len(prefix):])
 
         for accu, data in self.data.items():
+            js_data[accu]['rain'].pop(0)
             js_data[accu]['rain'].append([data['time'], data['rain']])
+            js_data[accu]['past'].pop(0)
             js_data[accu]['past'].append([data['time'], data['past']])
 
         with open(file_path, 'w') as f:
