@@ -70,7 +70,7 @@ class CpcParser(BaseParser):
         try:
             rain = get_elem_text(data_section, 'test_stat')
             percent = get_elem_text(data_section, 'perc_past_R')
-            past = rain * percent
+            past = float(rain) * float(percent) / 100.0
             plausibility = get_elem_text(data_section, 'plausibility_reg_rain')
         except AttributeError:
             rain = None
@@ -111,11 +111,15 @@ class CpcParser(BaseParser):
             data = f.read()
             js_data = json.loads(data[len(prefix):])
 
+        cpc_update_freq = 10  # min
+        max_values = self.timespan.days * 24 * 60 / cpc_update_freq
         for accu, data in self.data.items():
-            js_data[accu]['rain'].pop(0)
-            js_data[accu]['rain'].append([data['time'], data['rain']])
-            js_data[accu]['past'].pop(0)
-            js_data[accu]['past'].append([data['time'], data['past']])
+            for name in ['rain', 'past']:
+                data_list = js_data[accu][name]
+                if len(data_list) > max_values:
+                    cut = int(len(data_list) - max_values)
+                    del data_list[0:cut]
+                data_list.append([data['time'], data[name]])
 
         with open(file_path, 'w') as f:
             f.write(prefix)
