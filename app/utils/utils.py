@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import datetime
+import dateutil.parser
 import json
 import logging
 import os
@@ -64,6 +66,13 @@ def setup_logging(config):
 
 def unix_time_millis(dt):
     return dt.timestamp() * 1000.0
+
+
+def printable_time(value, config):
+    if not isinstance(value, datetime.datetime):
+        value = dateutil.parser.parse(value)
+
+    return value.strftime(config.time_format)
 
 
 def get_lock_status(config):

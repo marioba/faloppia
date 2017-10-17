@@ -1,3 +1,4 @@
+import json
 import os
 
 from flask.helpers import url_for
@@ -17,7 +18,8 @@ from flask_nav.elements import Navbar, View
 # Local stuff
 from app.config import Config
 from app.parsers_manager import ParsersManager
-from app.utils.utils import setup_logging, files_in_dir
+from app.utils.utils import setup_logging, files_in_dir, get_lock_status, \
+    printable_time
 
 # init application
 app = Flask(__name__)
@@ -91,11 +93,25 @@ def about():
 @app.route('/alerts')
 @requires_auth
 def alerts():
-    log_file = CONFIG.lock_file
-    log = get_log(log_file)
-    print(log)
+    alerts_file = get_lock_status(CONFIG)
+
+    for k, v in alerts_file.items():
+        for level_dict in v.values():
+            for eval_dict in level_dict.values():
+                eval_dict['time'] = printable_time(eval_dict['time'], CONFIG)
+                # for key, value in eval_dict.items():
+
+        for level, text in CONFIG.alert_text.items():
+            try:
+                clean_text = text
+                clean_text = clean_text.replace(', {}', '')
+                alerts_file[k][clean_text] = v.pop(level)
+            except KeyError:
+                pass
+
+
     table = json2html.convert(
-        json=log,
+        json=json.dumps(alerts_file),
         table_attributes='id="info-table" class="table table-bordered table-hover"')
     return render_template('alerts.html', config=CONFIG, table=table)
 
@@ -116,18 +132,6 @@ def debug():
     return render_template('log.html', config=CONFIG, log=log)
 
 
-def get_log(log_file):
-    empty_log = 'No events recorded yet'
-    try:
-        with open(log_file, 'r') as f:
-            log = f.read()
-            if not log:
-                log = empty_log
-    except FileNotFoundError:
-        log = empty_log
-    return log
-
-
 @app.route('/parse')
 @requires_auth
 def parse():
@@ -141,6 +145,18 @@ def parse():
         code = 500
 
     return content, code
+
+
+def get_log(log_file):
+    empty_log = 'No events recorded yet'
+    try:
+        with open(log_file, 'r') as f:
+            log = f.read()
+            if not log:
+                log = empty_log
+    except FileNotFoundError:
+        log = empty_log
+    return log
 
 
 @app.route('/data/<path:filename>')
