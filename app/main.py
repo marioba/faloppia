@@ -1,4 +1,6 @@
 import os
+
+from flask.helpers import url_for
 from json2html import *
 from functools import wraps
 
@@ -15,7 +17,7 @@ from flask_nav.elements import Navbar, View
 # Local stuff
 from app.config import Config
 from app.parsers_manager import ParsersManager
-from app.utils.utils import setup_logging
+from app.utils.utils import setup_logging, files_in_dir
 
 # init application
 app = Flask(__name__)
@@ -73,7 +75,17 @@ def index():
 @app.route('/about')
 @requires_auth
 def about():
-    return render_template('about.html', config=CONFIG)
+    items = []
+    path = os.path.join(CONFIG.data_dir, 'static', 'informations')
+    for f in files_in_dir(path, file_filter='.pdf', name_only=True):
+        href = url_for(
+            'data_file', filename='static/informations/{}'.format(f))
+
+        name = f.replace("_", " ").replace("-", " ")[:-4]
+        item = {'name': name, 'href': href}
+        items.append(item)
+
+    return render_template('about.html', config=CONFIG, items=items)
 
 
 @app.route('/alerts')

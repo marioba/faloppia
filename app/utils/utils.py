@@ -20,13 +20,16 @@ def parse_yaml(path):
         return yaml.safe_load(stream)
 
 
-def files_in_dir(directory, file_filter=None):
+def files_in_dir(directory, file_filter=None, name_only=False):
     files = []
     for filename in os.listdir(directory):
         file_path = os.path.join(directory, filename)
         if os.path.isfile(file_path):
             if file_filter is None or filename.endswith(file_filter):
-                files.append(os.path.join(file_path))
+                if name_only:
+                    files.append(filename)
+                else:
+                    files.append(file_path)
     return sorted(files)
 
 
