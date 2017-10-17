@@ -72,7 +72,6 @@ class BaseParser(object):
             send_sms = True
             self._lock_alert_type(level, text, evaluator)
 
-        print('Sending: {}'.format(send_sms))
         self.manager.log_alert(level, text, send_sms)
 
     def _log_event(self, level, text):

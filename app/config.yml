@@ -45,6 +45,7 @@ alert_text:
 log_level: 'DEBUG'
 
 timezone: 'Europe/Zurich'
+time_format: '%Y-%m-%d %H:%M:%S'
 
 parsers:
   cpc:
@@ -60,15 +61,15 @@ parsers:
         region: 'Region_494'
         thresholds:
           level_2:
-            - ["{0} >= 5.0", "precipitazione 5mm su 60min ({}) raggiunta alle {} -> L'impresa evacua entro 15 minuti il cantiere."]
+            - ["{0} >= 5.0", "precipitazione 5mm su 60min ({} mm) raggiunta il {} -> L'impresa evacua entro 15 minuti il cantiere."]
       accu_0720:
         name: 'area di 20 x 20 Km attorno a Novazzano'
         region: 'Region_495'
         thresholds:
           level_1:
-            - ["{0} >= 5.0 and {0} < 30.0", "precipitazione 5 mm su 12 h ({}) raggiunta alle {} -> L'impresa si prepara a un'eventuale evacuazione."]
+            - ["{0} >= 5.0 and {0} < 30.0", "precipitazione 5 mm su 12 h ({} mm) raggiunta il {} -> L'impresa si prepara a un'eventuale evacuazione."]
           level_2:
-            - ["{0} >= 30.0","precipitazione 30 mm su 12 h ({}) raggiunta alle {} -> L'impresa evacua il cantiere entro 2 ore e smantella la rampa d'accesso entro 12 ore."]
+            - ["{0} >= 30.0","precipitazione 30 mm su 12 h ({} mm) raggiunta il {} -> L'impresa evacua il cantiere entro 2 ore e smantella la rampa d'accesso entro 12 ore."]
 
 
   oasi:
@@ -79,7 +80,7 @@ parsers:
       days: 5
     thresholds:
       level_1:
-        - ["{0} >= 2.0 and {0} < 5.0", "deflusso superiore ai 2.0 m3/s ({}) raggiunto alle {} -> L'impresa si prepara ad un'eventuale evacuazione"]
+        - ["{0} >= 2.0 and {0} < 5.0", "deflusso superiore ai 2.0 m3/s ({} m3/s) raggiunto il {} -> L'impresa si prepara ad un'eventuale evacuazione"]
       level_2:
-        - ["{0} >= 5.0", "deflusso superiore ai 5.0 m3/s ({}) raggiunto alle {} -> L'impresa evacua il cantiere entro 15 minuti."]
-        - ["{0} <= 0.1", "deflusso inferiore ai 0.1 m3/s ({}) raggiunto alle {} -> L‘impresa evacua il cantiere entro 15 minuti e smantella la rampa d'accesso entro 2 ore."]
+        - ["{0} >= 5.0", "deflusso superiore ai 5.0 m3/s ({} m3/s) raggiunto il {} -> L'impresa evacua il cantiere entro 15 minuti."]
+        - ["{0} <= 0.1", "deflusso inferiore ai 0.1 m3/s ({} m3/s) raggiunto il {} -> L‘impresa evacua il cantiere entro 15 minuti e smantella la rampa d'accesso entro 2 ore."]

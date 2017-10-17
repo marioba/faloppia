@@ -36,8 +36,11 @@ class OasiParser(BaseParser):
             for evaluator, text in ts:
                 evaluation = evaluator.format(last_value)
                 if eval(evaluation):
-                    text = text.format(last_value, last_time)
+                    time = self._convert_datetime(last_time)
+                    time = time.strftime(self.config.time_format)
+                    text = text.format(last_value, time)
                     text = '{} - {}'.format(self.name, text)
+
                     self._send_alert(alert_level, text, evaluator)
 
     def _store_data(self):
@@ -49,8 +52,6 @@ class OasiParser(BaseParser):
             except ValueError:
                 value = None
             js_data.append([timestamp, value])
-        initial_time = self._convert_datetime(self.data[0][0])
-        initial_time = unix_time_millis(initial_time)
         file_path = os.path.join(self.settings['data_dir'], 'latest.js')
         with open(file_path, 'w') as f:
             f.write('oasi_values=')

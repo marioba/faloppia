@@ -1,5 +1,7 @@
+import datetime
 import json
 import os
+import logging
 
 import xml.etree.ElementTree as ET
 
@@ -112,8 +114,10 @@ class CpcParser(BaseParser):
                 for evaluator, text in ts:
                     evaluation = evaluator.format(data['rain'])
                     if eval(evaluation):
-                        text = text.format(
-                            data['rain'], data['time'])
+                        time = datetime.datetime.fromtimestamp(
+                            data['time']/1000)
+                        time = time.strftime(self.config.time_format)
+                        text = text.format(data['rain'], time)
                         text = '{} - {}'.format(self.name, text)
                         self._send_alert(alert_level, text, evaluator)
 

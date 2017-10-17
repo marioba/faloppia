@@ -93,6 +93,7 @@ def about():
 def alerts():
     log_file = CONFIG.lock_file
     log = get_log(log_file)
+    print(log)
     table = json2html.convert(
         json=log,
         table_attributes='id="info-table" class="table table-bordered table-hover"')
