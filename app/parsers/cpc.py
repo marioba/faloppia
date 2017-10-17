@@ -3,7 +3,7 @@ import os
 
 import xml.etree.ElementTree as ET
 
-from parsers.base_parser import BaseParser
+from app.parsers.base_parser import BaseParser
 from app.utils.utils import get_latest_file, get_elem_text, StandardAlertLevels
 
 

@@ -6,7 +6,7 @@ import urllib.request
 
 from datetime import datetime
 
-from parsers.base_parser import BaseParser
+from app.parsers.base_parser import BaseParser
 from app.utils.utils import unix_time_millis
 
 

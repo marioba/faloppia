@@ -59,7 +59,7 @@ def unix_time_millis(dt):
     return dt.timestamp() * 1000.0
 
 
-def _get_lock_status(config):
+def get_lock_status(config):
     try:
         with open(config.lock_file) as lock_file:
             lock_status = json.load(lock_file)

@@ -7,7 +7,7 @@ from json.decoder import JSONDecodeError
 
 import pytz
 
-from app.utils.utils import StandardAlertLevels, _get_lock_status
+from app.utils.utils import StandardAlertLevels, get_lock_status
 
 
 class BaseParser(object):
@@ -26,7 +26,7 @@ class BaseParser(object):
 
     def _lock_alert_type(self, level, text, evaluator):
         level = 'level_{}'.format(level)
-        status = _get_lock_status(self.config)
+        status = get_lock_status(self.config)
 
         if self.name not in status:
             status[self.name] = {}
@@ -50,7 +50,7 @@ class BaseParser(object):
         lock_duration = timedelta(**self.settings['alert_lock'])
         lock_expire = self.now - lock_duration
         try:
-            status = _get_lock_status(self.config)
+            status = get_lock_status(self.config)
             last_alert = status[self.name][level]
             last_alert = last_alert[evaluator]
             last_alert_time = dateutil.parser.parse(last_alert['time'])
