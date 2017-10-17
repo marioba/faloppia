@@ -1,0 +1,143 @@
+<?xml version="1.0"?>
+<METEOSWISS>
+    <ALERT client="FFS_Faloppia" accu="accu_0060">
+        <HEADER>
+            <time>172891120</time>
+            <seconds>1508152800</seconds>
+            <past_minutes>30</past_minutes>
+            <forecast_minutes>30</forecast_minutes>
+            <past_prd>CPC</past_prd>
+            <past_prd_time>172891110</past_prd_time>
+            <forecast_prd>INCA</forecast_prd>
+            <forecast_prd_time>172891120</forecast_prd_time>
+            <forecast_produced_time>172891110</forecast_produced_time>
+            <update_time>10</update_time>
+            <latency_time>60</latency_time>
+            <test_statistic>Q1km</test_statistic>
+            <test_thresholds>5.00</test_thresholds>
+            <preprocessed>W7M</preprocessed>
+        </HEADER>
+        <DATA>
+            <Region ID="Region_494">
+                <alert_level>0</alert_level>
+
+                <latest_fab_level>2</latest_fab_level>
+
+                <latest_fab_time>172210040</latest_fab_time>
+
+                <latest_fab_secs>1502239200</latest_fab_secs>
+
+                <previous_fab_level>1</previous_fab_level>
+
+                <previous_fab_time>172210020</previous_fab_time>
+
+                <test_stat>30.93</test_stat>
+
+                <perc_past_R>9</perc_past_R>
+
+                <mean_rain>1.31</mean_rain>
+
+                <max_rain>4.00</max_rain>
+
+                <sum_rain>516.94</sum_rain>
+
+                <plausibility_reg_rain>1</plausibility_reg_rain>
+            </Region>
+            <Region ID="Region_495">
+                <alert_level>0</alert_level>
+
+                <latest_fab_level>2</latest_fab_level>
+
+                <latest_fab_time>172210040</latest_fab_time>
+
+                <latest_fab_secs>1502239200</latest_fab_secs>
+
+                <previous_fab_level>1</previous_fab_level>
+
+                <previous_fab_time>172210020</previous_fab_time>
+
+                <test_stat>30.93</test_stat>
+
+                <perc_past_R>9</perc_past_R>
+
+                <mean_rain>1.31</mean_rain>
+
+                <max_rain>4.00</max_rain>
+
+                <sum_rain>516.94</sum_rain>
+
+                <plausibility_reg_rain>1</plausibility_reg_rain>
+            </Region>
+        </DATA>
+    </ALERT>
+    <ALERT client="FFS_Faloppia" accu="accu_0720">
+        <HEADER>
+            <time>172891120</time>
+            <seconds>1508152800</seconds>
+            <past_minutes>360</past_minutes>
+            <forecast_minutes>360</forecast_minutes>
+            <past_prd>CPC</past_prd>
+            <past_prd_time>172891110</past_prd_time>
+            <forecast_prd>INCA</forecast_prd>
+            <forecast_prd_time>172891120</forecast_prd_time>
+            <forecast_produced_time>172891110</forecast_produced_time>
+            <update_time>10</update_time>
+            <latency_time>360</latency_time>
+            <test_statistic>Q1km</test_statistic>
+            <test_thresholds>60.00</test_thresholds>
+            <preprocessed>W7M</preprocessed>
+        </HEADER>
+        <DATA>
+            <Region ID="Region_494">
+                <alert_level>0</alert_level>
+
+                <latest_fab_level>2</latest_fab_level>
+
+                <latest_fab_time>172210040</latest_fab_time>
+
+                <latest_fab_secs>1502239200</latest_fab_secs>
+
+                <previous_fab_level>1</previous_fab_level>
+
+                <previous_fab_time>172210020</previous_fab_time>
+
+                <test_stat>30.93</test_stat>
+
+                <perc_past_R>9</perc_past_R>
+
+                <mean_rain>1.31</mean_rain>
+
+                <max_rain>4.00</max_rain>
+
+                <sum_rain>516.94</sum_rain>
+
+                <plausibility_reg_rain>1</plausibility_reg_rain>
+            </Region>
+            <Region ID="Region_495">
+                <alert_level>0</alert_level>
+
+                <latest_fab_level>2</latest_fab_level>
+
+                <latest_fab_time>172210040</latest_fab_time>
+
+                <latest_fab_secs>1502239200</latest_fab_secs>
+
+                <previous_fab_level>1</previous_fab_level>
+
+                <previous_fab_time>172210020</previous_fab_time>
+
+                <test_stat>30.93</test_stat>
+
+                <perc_past_R>9</perc_past_R>
+
+                <mean_rain>1.31</mean_rain>
+
+                <max_rain>4.00</max_rain>
+
+                <sum_rain>516.94</sum_rain>
+
+                <plausibility_reg_rain>1</plausibility_reg_rain>
+            </Region>
+        </DATA>
+    </ALERT>
+</METEOSWISS>

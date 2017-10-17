@@ -3,5 +3,5 @@
 *
 # Except this file
 !.gitignore
-/meteog-mr_Stabio.png
-/meteog-sr_Stabio.png
+!/meteog-mr_Stabio.png
+!/meteog-sr_Stabio.png
