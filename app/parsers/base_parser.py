@@ -38,7 +38,7 @@ class BaseParser(object):
 
         status[self.name][level][evaluator]['time'] = self.now.isoformat()
         status[self.name][level][evaluator]['text'] = text
-        with open(self.config.lock_file, 'w+') as f:
+        with open(self.config.lock_file, 'a') as f:
             json.dump(status, f, indent=2)
 
     def _is_alert_locked(self, level, evaluator):

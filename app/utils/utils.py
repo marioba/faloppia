@@ -20,8 +20,11 @@ def remove_duplicates(list_with_duplicates):
 
 
 def parse_yaml(path):
-    with open(path, 'r') as stream:
-        return yaml.safe_load(stream)
+    try:
+        with open(path, 'r') as stream:
+            return yaml.safe_load(stream)
+    except FileNotFoundError:
+        return None
 
 
 def files_in_dir(directory, file_filter=None, name_only=False):

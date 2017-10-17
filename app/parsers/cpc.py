@@ -125,20 +125,26 @@ class CpcParser(BaseParser):
     def _store_data(self):
         prefix = 'cpc_values='
         file_path = os.path.join(self.config.data_dir, self.name, 'latest.js')
-        with open(file_path, 'r+') as f:
-            data = f.read()
-            js_data = json.loads(data[len(prefix):])
+        try:
+            with open(file_path, 'r') as f:
+                data = f.read()
+                js_data = json.loads(data[len(prefix):])
+        except FileNotFoundError:
+            js_data = None
 
         max_values = self.timespan.days * 24 * 60 / self.settings[
             'data_update_freq']
         for accu, data in self.data.items():
             for name in ['rain', 'past']:
-                data_list = js_data[accu][name]
+                try:
+                    data_list = js_data[accu][name]
+                except TypeError:
+                    data_list = []
                 if len(data_list) > max_values:
                     cut = int(len(data_list) - max_values)
                     del data_list[0:cut]
                 data_list.append([data['time'], data[name]])
 
-        with open(file_path, 'w+') as f:
+        with open(file_path, 'a') as f:
             f.write(prefix)
             json.dump(js_data, f, sort_keys=True, indent=2)
