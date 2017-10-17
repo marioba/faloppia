@@ -1,7 +1,7 @@
 app_name: "FaloppiaWarn"
 fake_sms_mode:
   enable: true # enabling this results in not sending ANY sms
-  status: 500
+  status: 202
 
 # PLIVO SMS Framework
 plivo_auth_id: "SANME2YTDKYZHJYZEWZG"
