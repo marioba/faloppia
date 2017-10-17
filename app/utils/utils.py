@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 import datetime
+from logging import Formatter
+
 import dateutil.parser
 import json
 import logging
@@ -58,7 +60,8 @@ class ApiStatuses:
 
 
 def setup_logging(config):
-    logging.basicConfig(filename=config.debug_log_file)
+    fmt = '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
+    logging.basicConfig(filename=config.debug_log_file, format=fmt)
     logging.getLogger().addHandler(logging.StreamHandler())
     log_level = logging.getLevelName(config.log_level)
     logging.getLogger().setLevel(log_level)

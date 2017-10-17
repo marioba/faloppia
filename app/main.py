@@ -1,4 +1,5 @@
 import json
+import logging
 import os
 
 from flask.helpers import url_for
@@ -15,11 +16,14 @@ from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import Navbar, View
 
+from raven.contrib.flask import Sentry
+
 # Local stuff
 from app.config import Config
 from app.parsers_manager import ParsersManager
-from app.utils.utils import setup_logging, files_in_dir, get_lock_status, \
-    printable_time
+from app.utils.utils import (
+    setup_logging, files_in_dir, get_lock_status, printable_time)
+
 
 # init application
 app = Flask(__name__)
@@ -28,6 +32,8 @@ NAV = Nav()
 NAV.init_app(app)
 CONFIG = Config()
 setup_logging(CONFIG)
+sentry = Sentry(
+    app, logging=True, level=logging.WARNING, dsn=CONFIG.sentry_dns)
 
 
 def check_auth(username, password, config):

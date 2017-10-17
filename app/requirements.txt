@@ -6,3 +6,4 @@ plivo
 pyyaml
 pytz
 json2html
+raven[flask]

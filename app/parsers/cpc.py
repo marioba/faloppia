@@ -125,7 +125,7 @@ class CpcParser(BaseParser):
     def _store_data(self):
         prefix = 'cpc_values='
         file_path = os.path.join(self.config.data_dir, self.name, 'latest.js')
-        with open(file_path, 'r') as f:
+        with open(file_path, 'r+') as f:
             data = f.read()
             js_data = json.loads(data[len(prefix):])
 

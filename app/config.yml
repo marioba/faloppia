@@ -7,7 +7,7 @@ fake_sms_mode:
 plivo_auth_id: "SANME2YTDKYZHJYZEWZG"
 plivo_auth_token: "OWMxNDM4OGY4NTEzYWU2NGZkNjMyYzY2NTA0ZDQ5"
 
-
+sentry_dns: 'https://323e387667ea4fd983ed47cb2c00e94c:c8bcb781a9134061979953af8021347f@sentry.io/231642'
 #Authentication
 username: 'faloppia'
 password: 'alveo666'
