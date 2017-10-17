@@ -11,9 +11,9 @@ class MessageSender(object):
     """
     Class used to send alerts to users
     """
-    RETRY = 10  # how many times will we retry calling the send_message API
+    RETRY = 5  # how many times will we retry calling the send_message API
     # (RETRY+1)*(RETRY/2)*WAIT_FACTOR is the maximum waiting time in seconds
-    # in case of API problems. for 10 and 0.25 it is 13.75
+    # in case of API problems.
     WAIT_FACTOR = 0.25
 
     def __init__(self, config):
