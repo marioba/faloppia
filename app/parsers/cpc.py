@@ -4,6 +4,7 @@ import os
 import xml.etree.ElementTree as ET
 
 from app.parsers.base_parser import BaseParser
+from app.utils.message_sender import FatalError
 from app.utils.utils import get_latest_file, get_elem_text, StandardAlertLevels
 
 
@@ -19,6 +20,11 @@ class CpcParser(BaseParser):
 
     def _read_data(self):
         latest_file = self._find_latest_xml()
+        if latest_file is None:
+            raise FatalError('No CPC XML file found')
+
+        latest_file_date = 172891120
+        now = self.now.strftime('%y%j%H%M')
         self.data = self._parse_xml(latest_file)
 
     def _find_latest_xml(self):
@@ -107,8 +113,8 @@ class CpcParser(BaseParser):
             data = f.read()
             js_data = json.loads(data[len(prefix):])
 
-        cpc_update_freq = 10  # min
-        max_values = self.timespan.days * 24 * 60 / cpc_update_freq
+        max_values = self.timespan.days * 24 * 60 / self.settings[
+            'data_update_freq']
         for accu, data in self.data.items():
             for name in ['rain', 'past']:
                 data_list = js_data[accu][name]

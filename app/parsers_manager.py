@@ -5,7 +5,7 @@ import importlib
 import pytz
 
 from app.utils.message_sender import MessageSender
-from app.utils.utils import setup_logging
+from app.utils.utils import setup_logging, StandardAlertLevels
 
 
 class ParsersManager(object):
@@ -16,14 +16,16 @@ class ParsersManager(object):
         setup_logging(config)
 
     def run(self):
-        self.log_event('parsing started', 'using: {}'.format(
-            list(self.parsers.keys())))
-        for name, instance in self.parsers.items():
-            instance.run()  # TODO remove
-            #try:
-             #   instance.run()
-            #except Exception as e:
-            #    self.log_alert(StandardAlertLevels.it, str(e))
+        try:
+            self.log_event('parsing started', 'using: {}'.format(
+                list(self.parsers.keys())))
+            for name, instance in self.parsers.items():
+                try:
+                    instance.run()
+                except Exception as e:
+                    self.log_alert(StandardAlertLevels.it, str(e))
+        except Exception:
+            return False
 
     def log_alert(self, level, text, send_sms=True):
         text = self.config.alert_text['level_{}'.format(level)].format(text)

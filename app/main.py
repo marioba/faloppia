@@ -61,9 +61,7 @@ def navigation_bar():
         View('Situazione', 'index'),
         View('Allerte attive', 'alerts'),
         View('Informazioni', 'about'),
-        View('Aggiorna', 'parse'),
         View('Storia', 'history'),
-        View('Debug', 'debug'),
     )
 
 
@@ -116,6 +114,14 @@ def get_log(log_file):
     except FileNotFoundError:
         log = empty_log
     return log
+
+
+@app.route('/api-parse')
+@requires_auth
+def api_parse():
+    manager = ParsersManager(CONFIG)
+    response = manager.run()
+    return response
 
 
 @app.route('/parse')

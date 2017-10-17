@@ -31,7 +31,11 @@ def files_in_dir(directory, file_filter=None):
 
 
 def get_latest_file(directory, file_filter):
-    return files_in_dir(directory, file_filter)[-1]
+    files = files_in_dir(directory, file_filter)
+    try:
+        return files[-1]
+    except IndexError:
+        return None
 
 
 def get_elem_text(xml, xpath):

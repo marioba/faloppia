@@ -1,5 +1,6 @@
 import datetime
 import json
+import logging
 import os
 from datetime import timedelta
 import dateutil.parser
@@ -41,7 +42,7 @@ class BaseParser(object):
             json.dump(status, f, indent=2)
 
     def _is_alert_locked(self, level, evaluator):
-        print('checking: ', self.name, level, evaluator)
+        logging.debug('checking: {} {} {}'.format(self.name, level, evaluator))
         level = 'level_{}'.format(level)
         if level == StandardAlertLevels.it:
             # always send IT alerts
