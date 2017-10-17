@@ -24,7 +24,14 @@ class CpcParser(BaseParser):
             raise FatalError('No CPC XML file found')
 
         latest_file_date = 172891120
-        now = self.now.strftime('%y%j%H%M')
+
+        allowed_delay = self.settings['data_update_freq']
+        now = int(self.now.strftime('%y%j%H%M'))
+        delay = now - latest_file_date
+        if delay > allowed_delay:
+            message = 'The last CPC file is {} minutes old ({})'.format(
+                delay, latest_file_date)
+            self._it_send_alert(message)
         self.data = self._parse_xml(latest_file)
 
     def _find_latest_xml(self):
@@ -90,7 +97,7 @@ class CpcParser(BaseParser):
                 data['rain'] = None
                 data['past'] = None
                 text = 'Plausibility 0 found, skipping'
-                self._log_event(StandardAlertLevels.it, text)
+                logging.debug(text)
                 continue
             if data['rain'] is None:
                 continue

@@ -27,7 +27,7 @@ alert_numbers:
 it_alert_numbers:
   # this is for technical issues on the software side
   - "+41794672470"
-  #- "+41791960173"
+  - "+41791960173"
 
 
 # {} is replaced with the details of the alert

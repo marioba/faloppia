@@ -62,6 +62,9 @@ class BaseParser(object):
         except (KeyError, JSONDecodeError) as e:
             return False
 
+    def _send_it_alert(self, text):
+        self._send_alert(StandardAlertLevels.it, text)
+
     def _send_alert(self, level, text, evaluator):
         if self._is_alert_locked(level, evaluator):
             send_sms = False
