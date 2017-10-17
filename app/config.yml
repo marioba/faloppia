@@ -1,6 +1,6 @@
 app_name: "FaloppiaWarn"
 fake_sms_mode:
-  enable: true # enabling this results in not sending ANY sms
+  enable: false # enabling this results in not sending ANY sms
   status: 202
 
 # PLIVO SMS Framework
@@ -13,7 +13,7 @@ username: 'faloppia'
 password: 'alveo666'
 
 # SMS numbers
-sender_number: "+41792158388"
+sender_number: "41794672470"
 alert_numbers:
   level_0:
     # this numbers receive an sms each time a calculation is run even if the
@@ -30,7 +30,7 @@ alert_numbers:
 it_alert_numbers:
   # this is for technical issues on the software side
   - "+41794672470"
-  - "+41791960173"
+  #- "+41791960173"
 
 
 # {} is replaced with the details of the alert

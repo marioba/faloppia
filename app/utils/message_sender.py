@@ -34,6 +34,12 @@ class MessageSender(object):
         alert_text = detail_text
         try:
             if alert_level == StandardAlertLevels.it:
+                level_format = 'level_{}'.format(StandardAlertLevels.it)
+                #alert_text = self.config.alert_text[level_format]
+                print('al : ', alert_text)
+                print('det: ', detail_text)
+                alert_text = alert_text.format(detail_text)
+                print('al : ', alert_text)
                 receivers = self.config.it_alert_numbers
             else:
                 for level in range(alert_level + 1):

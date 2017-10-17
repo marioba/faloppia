@@ -18,12 +18,12 @@ class TestMessageSender(TestCase):
             'main': (
                 202,
                 {'dst': '+41791234567<+41791234568',
-                 'text': 'FaloppiaWarn - ALLARME, strong rains coming',
+                 'text': 'FaloppiaWarnTest - ALLARME, strong rains coming',
                  'src': '+41791234566'}),
             'config_errors': [(
                 202,
                 {'dst': '+41791234568',
-                 'text': 'FaloppiaWarn - IT Problem, No alarm numbers set for level 2 alarms',
+                 'text': 'FaloppiaWarnTest - IT Problem, No alarm numbers set for level 2 alarms',
                  'src': '+41791234566'})]}
 
         self.assertDictEqual(responses, expected)
@@ -41,14 +41,15 @@ class TestMessageSender(TestCase):
         text = 'strong rains coming'
         responses = ms.send_alert(alert_level, text)
         expected = {'config_errors': [(202, {'src': '+41791234566',
-                                             'text': 'FaloppiaWarn - IT Problem, No alarm numbers set for level 2 alarms',
+                                             'text': 'FaloppiaWarnTest - IT Problem, No alarm numbers set for level 2 alarms',
                                              'dst': '+41791234568'}), (202, {
             'src': '+41791234566',
-            'text': 'FaloppiaWarn - IT Problem, No alarm numbers or text set for level 3 alarms',
+            'text': 'FaloppiaWarnTest - IT Problem, No alarm numbers or text set for level 3 alarms',
             'dst': '+41791234568'})], 'main': (202, {'src': '+41791234566',
-                                                     'text': 'FaloppiaWarn - ALLARME, strong rains coming',
+                                                     'text': 'FaloppiaWarnTest - ALLARME, strong rains coming',
                                                      'dst': '+41791234567<+41791234568'})}
 
+        print(responses)
         self.assertDictEqual(responses, expected)
 
     def test_failed_send(self):

@@ -1,4 +1,4 @@
-app_name: "FaloppiaWarn"
+app_name: "FaloppiaWarnTest"
 
 # PLIVO SMS Framework
 plivo_auth_id: "plivo_auth_id"
