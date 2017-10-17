@@ -36,12 +36,13 @@ class ParsersManager(object):
         return 'OK: {}'.format(parsed)
 
     def log_alert(self, level, text, send_sms=True):
-        text = self.config.alert_text['level_{}'.format(level)].format(text)
         if send_sms:
             MessageSender(self.config).send_alert(level, text)
             text = 'New SMS sent: {}'.format(text)
             self._log_event(text)
         else:
+            text = self.config.alert_text[
+                'level_{}'.format(level)].format(text)
             self.log_event('alert without SMS', text)
 
     def log_event(self, title, text):
