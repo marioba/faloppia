@@ -34,9 +34,6 @@ class MessageSender(object):
         alert_text = detail_text
         try:
             if alert_level == StandardAlertLevels.it:
-                alert_text = self.config.alert_text[
-                    'level_{}'.format(StandardAlertLevels.it)]
-                alert_text = alert_text.format(detail_text)
                 receivers = self.config.it_alert_numbers
             else:
                 for level in range(alert_level + 1):
@@ -138,8 +135,7 @@ class MessageSender(object):
         :param message:
         :return:
         """
-        message = self.config.alert_text[
-            'level_{}'.format(StandardAlertLevels.it)].format(message)
+        message = self.config.alert_text['level_-1'].format(message)
         logging.warning(message)
         responses = self.send_alert(StandardAlertLevels.it, message)
         self.responses['config_errors'].append(responses['main'])
