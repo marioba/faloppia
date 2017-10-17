@@ -13,9 +13,10 @@ class ParsersManager(object):
         self.config = config
         setup_logging(self.config)
 
-        if self.config.fake_sms_mode:
+        if self.config.fake_sms_mode['enable']:
             logging.debug('fake_sms_mode ON')
-            self.config.set_fake_api_call(return_status=500)
+            status = self.config.fake_sms_mode['status']
+            self.config.set_fake_api_call(return_status=status)
         self.parsers = self._get_parsers()
 
     def run(self):
@@ -32,7 +33,7 @@ class ParsersManager(object):
                 parsed.append(name)
             except Exception as e:
                 self.log_alert(StandardAlertLevels.it, str(e))
-        return parsed
+        return 'OK: {}'.format(parsed)
 
     def log_alert(self, level, text, send_sms=True):
         text = self.config.alert_text['level_{}'.format(level)].format(text)
