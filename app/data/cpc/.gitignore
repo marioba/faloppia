@@ -3,5 +3,3 @@
 *
 # Except this file
 !.gitignore
-!/latest.js
-!/app/data/cpc/r0071a.FFS_Faloppia.TAF172891120.xml.cpc
