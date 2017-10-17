@@ -135,7 +135,8 @@ class MessageSender(object):
         :param message:
         :return:
         """
-        message = self.config.alert_text['level_-1'].format(message)
+        message = self.config.alert_text[
+            'level_{}'.format(StandardAlertLevels.it)].format(message)
         logging.warning(message)
         responses = self.send_alert(StandardAlertLevels.it, message)
         self.responses['config_errors'].append(responses['main'])
