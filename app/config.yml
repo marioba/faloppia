@@ -13,7 +13,7 @@ username: 'faloppia'
 password: 'alveo666'
 
 # SMS numbers
-sender_number: "+41792158388"
+sender_number: "+41666666666"
 alert_numbers:
   level_0:
     # this numbers receive an sms each time a calculation is run even if the
@@ -22,15 +22,15 @@ alert_numbers:
     - "+41794672470"
   level_1:
     - "+41794672470"
-    # - "+41791960173"
+    - "+41791960173"
   level_2:
     - "+41794672470"
-    # - "+41791960173"
+    - "+41791960173"
 
 it_alert_numbers:
   # this is for technical issues on the software side
   - "+41794672470"
-  #- "+41791960173"
+  - "+41666666666"
 
 
 # {} is replaced with the details of the alert
