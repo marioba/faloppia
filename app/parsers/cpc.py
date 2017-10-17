@@ -139,6 +139,6 @@ class CpcParser(BaseParser):
                     del data_list[0:cut]
                 data_list.append([data['time'], data[name]])
 
-        with open(file_path, 'w') as f:
+        with open(file_path, 'w+') as f:
             f.write(prefix)
             json.dump(js_data, f, sort_keys=True, indent=2)

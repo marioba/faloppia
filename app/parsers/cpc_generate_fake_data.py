@@ -42,6 +42,6 @@ cpc = {
 }
 
 prefix = 'cpc_values='
-with open('/home/marco/dev/faloppia/data/cpc/latest.js', 'w') as f:
+with open('/home/marco/dev/faloppia/app/data/cpc/latest.js', 'w+') as f:
     f.write(prefix)
     json.dump(cpc, f, sort_keys=True, indent=2)
