@@ -34,12 +34,6 @@ class MessageSender(object):
         alert_text = detail_text
         try:
             if alert_level == StandardAlertLevels.it:
-                level_format = 'level_{}'.format(StandardAlertLevels.it)
-                #alert_text = self.config.alert_text[level_format]
-                print('al : ', alert_text)
-                print('det: ', detail_text)
-                alert_text = alert_text.format(detail_text)
-                print('al : ', alert_text)
                 receivers = self.config.it_alert_numbers
             else:
                 for level in range(alert_level + 1):
@@ -89,7 +83,7 @@ class MessageSender(object):
             alert_text = 'Fatal Error: {}'.format(str(e))
             raise FatalError(alert_text) from e
 
-    def _plivo_send(self, text, receivers, retry=RETRY):
+    def _plivo_send(self, text, receivers, retry=RETRY, response=None):
         """
         Sends an SMS using plivo.com
 
@@ -100,7 +94,7 @@ class MessageSender(object):
         """
 
         if retry == 0:
-            raise APISendError(text, self.RETRY)
+            raise APISendError(text, self.RETRY, response)
 
         if not receivers:
             raise FatalError('No receivers were passed')
@@ -131,7 +125,7 @@ class MessageSender(object):
             retry = retry - 1
             seconds = (self.RETRY - retry) * self.WAIT_FACTOR
             sleep(seconds)
-            self._plivo_send(text, receivers, retry)
+            self._plivo_send(text, receivers, retry, response)
 
         return response
 
@@ -152,18 +146,19 @@ class APISendError(RuntimeError):
     """
     Error caused to the API not returning success codes
     """
-    def __init__(self, message, retry):
+    def __init__(self, message, retry, response):
         """
 
         :param message:
         :param retry:
         """
         text = 'After trying {} times I had to give up trying sending "{}"'
-        text = text.format(retry, message)
+        text += 'API Response: {}'
+        text = text.format(retry, message, response)
 
         # Call the base class constructor with the parameters it needs
         super().__init__(text)
-        logging.fatal(message)
+        logging.fatal(text)
 
 
 class FatalError(RuntimeError):

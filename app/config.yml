@@ -13,7 +13,7 @@ username: 'faloppia'
 password: 'alveo666'
 
 # SMS numbers
-sender_number: "41794672470"
+sender_number: "+41792158388"
 alert_numbers:
   level_0:
     # this numbers receive an sms each time a calculation is run even if the
