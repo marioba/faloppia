@@ -63,7 +63,7 @@ class BaseParser(object):
             return False
 
     def _send_it_alert(self, text):
-        self._send_alert(StandardAlertLevels.it, text)
+        self._send_alert(StandardAlertLevels.it, text, None)
 
     def _send_alert(self, level, text, evaluator):
         if self._is_alert_locked(level, evaluator):

@@ -23,16 +23,20 @@ class CpcParser(BaseParser):
         if latest_file is None:
             raise FatalError('No CPC XML file found')
 
-        latest_file_date = 172891120
-
+        latest_file_date = self._get_file_date(latest_file)
         allowed_delay = self.settings['data_update_freq']
         now = int(self.now.strftime('%y%j%H%M'))
         delay = now - latest_file_date
         if delay > allowed_delay:
             message = 'The last CPC file is {} minutes old ({})'.format(
                 delay, latest_file_date)
-            self._it_send_alert(message)
+            self._send_it_alert(message)
         self.data = self._parse_xml(latest_file)
+
+    @staticmethod
+    def _get_file_date(latest_file):
+        file_date = int(latest_file[:-4].split('TAF')[1])
+        return file_date
 
     def _find_latest_xml(self):
         return get_latest_file(self.settings['data_dir'], '.xml')
