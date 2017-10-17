@@ -48,7 +48,7 @@ class ParsersManager(object):
 
     def _instantiate_parser(self, parser_name):
         parser_module = importlib.import_module(
-            'parsers.{}'.format(parser_name))
+            'app.parsers.{}'.format(parser_name))
         class_name = '{}Parser'.format(parser_name.capitalize())
         parser_class = getattr(parser_module, class_name)
         return parser_class(self)
