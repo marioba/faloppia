@@ -99,7 +99,8 @@ def alerts():
         for level_dict in v.values():
             for eval_dict in level_dict.values():
                 eval_dict['time'] = printable_time(eval_dict['time'], CONFIG)
-                # for key, value in eval_dict.items():
+                eval_dict['messaggio'] = eval_dict.pop('text')
+                eval_dict['orario messaggio'] = eval_dict.pop('time')
 
         for level, text in CONFIG.alert_text.items():
             try:
@@ -111,7 +112,7 @@ def alerts():
 
 
     table = json2html.convert(
-        json=json.dumps(alerts_file),
+        json=json.dumps(alerts_file, sort_keys=True),
         table_attributes='id="info-table" class="table table-bordered table-hover"')
     return render_template('alerts.html', config=CONFIG, table=table)
 
