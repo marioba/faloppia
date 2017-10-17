@@ -1,4 +1,5 @@
 app_name: "FaloppiaWarn"
+fake_sms_mode: true # enabling this results in not sending ANY sms
 
 # PLIVO SMS Framework
 plivo_auth_id: "SANME2YTDKYZHJYZEWZG"

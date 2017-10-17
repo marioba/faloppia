@@ -1,6 +1,6 @@
 import datetime
 import importlib
-
+import logging
 
 import pytz
 
@@ -11,21 +11,28 @@ from app.utils.utils import setup_logging, StandardAlertLevels
 class ParsersManager(object):
     def __init__(self, config):
         self.config = config
-        self.config.set_fake_api_call()
+        setup_logging(self.config)
+
+        if self.config.fake_sms_mode:
+            logging.debug('fake_sms_mode ON')
+            self.config.set_fake_api_call(return_status=500)
         self.parsers = self._get_parsers()
-        setup_logging(config)
 
     def run(self):
-        try:
-            self.log_event('parsing started', 'using: {}'.format(
-                list(self.parsers.keys())))
-            for name, instance in self.parsers.items():
-                try:
-                    instance.run()
-                except Exception as e:
-                    self.log_alert(StandardAlertLevels.it, str(e))
-        except Exception:
-            return False
+        """
+
+        :raises: FatalError if an SMS could not be send
+        """
+        parsed = []
+        self.log_event('parsing started', 'using: {}'.format(
+            list(self.parsers.keys())))
+        for name, instance in self.parsers.items():
+            try:
+                instance.run()
+                parsed.append(name)
+            except Exception as e:
+                self.log_alert(StandardAlertLevels.it, str(e))
+        return parsed
 
     def log_alert(self, level, text, send_sms=True):
         text = self.config.alert_text['level_{}'.format(level)].format(text)
@@ -64,9 +71,9 @@ class ParsersManager(object):
 
 
 if __name__ == '__main__':
+    # For Debugging
     from app.config import Config
 
-    # TODO REMOVE FAKE STUFF
     CONFIG = Config()
 
     manager = ParsersManager(CONFIG)

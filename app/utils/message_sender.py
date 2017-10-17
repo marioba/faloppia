@@ -11,7 +11,7 @@ class MessageSender(object):
     """
     Class used to send alerts to users
     """
-    RETRY = 10  # how many times will we rettry calling the send_message API
+    RETRY = 10  # how many times will we retry calling the send_message API
     # (RETRY+1)*(RETRY/2)*WAIT_FACTOR is the maximum waiting time in seconds
     # in case of API problems. for 10 and 0.5 it is 27.5
     WAIT_FACTOR = 0.5
@@ -80,8 +80,7 @@ class MessageSender(object):
             return self.responses
 
         except Exception as e:
-            logging.fatal(e)
-            alert_text = 'Alert level {}: {}'.format(alert_level, detail_text)
+            alert_text = 'Fatal Error: {}'.format(str(e))
             raise FatalError(alert_text) from e
 
     def _plivo_send(self, text, receivers, retry=RETRY):
@@ -102,8 +101,10 @@ class MessageSender(object):
 
         if isinstance(receivers, list):
             receivers = '<'.join(receivers)
+        if retry == self.RETRY:
+            # add the prefix only the first time
+            text = '{} - {}'.format(self.config.app_name, text)
 
-        text = '{} - {}'.format(self.config.app_name, text)
         params = {
             'dst': receivers,
             'src': self.config.sender_number,

@@ -7,8 +7,7 @@ from flask import (Flask,
                    render_template,
                    request,
                    Response,
-                   send_from_directory, redirect)
-from flask.helpers import url_for
+                   send_from_directory)
 from flask_bootstrap import Bootstrap
 from flask_nav import Nav
 from flask_nav.elements import Navbar, View
@@ -116,20 +115,19 @@ def get_log(log_file):
     return log
 
 
-@app.route('/api-parse')
-@requires_auth
-def api_parse():
-    manager = ParsersManager(CONFIG)
-    response = manager.run()
-    return response
-
-
 @app.route('/parse')
 @requires_auth
 def parse():
     manager = ParsersManager(CONFIG)
-    manager.run()
-    return redirect(url_for('index'))
+    try:
+        parsed = manager.run()
+        content = str(parsed)
+        code = 200
+    except Exception as e:
+        content = str(e)
+        code = 500
+
+    return content, code
 
 
 @app.route('/data/<path:filename>')

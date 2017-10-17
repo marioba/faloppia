@@ -59,7 +59,7 @@ class BaseParser(object):
                 return True
             else:
                 return False
-        except (KeyError, JSONDecodeError) as e:
+        except (KeyError, JSONDecodeError):
             return False
 
     def _send_it_alert(self, text):
