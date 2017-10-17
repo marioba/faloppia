@@ -7,7 +7,8 @@ import xml.etree.ElementTree as ET
 
 from app.parsers.base_parser import BaseParser
 from app.utils.message_sender import FatalError
-from app.utils.utils import get_latest_file, get_elem_text, StandardAlertLevels
+from app.utils.utils import get_latest_file, get_elem_text, \
+    StandardAlertLevels, printable_time
 
 
 class CpcParser(BaseParser):
@@ -116,7 +117,7 @@ class CpcParser(BaseParser):
                     if eval(evaluation):
                         time = datetime.datetime.fromtimestamp(
                             data['time']/1000)
-                        time = time.strftime(self.config.time_format)
+                        time = printable_time(time, self.config)
                         text = text.format(data['rain'], time)
                         text = '{} - {}'.format(self.name, text)
                         self._send_alert(alert_level, text, evaluator)

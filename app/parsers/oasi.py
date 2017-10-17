@@ -7,7 +7,7 @@ import urllib.request
 from datetime import datetime
 
 from app.parsers.base_parser import BaseParser
-from app.utils.utils import unix_time_millis
+from app.utils.utils import unix_time_millis, printable_time
 
 
 class OasiParser(BaseParser):
@@ -36,8 +36,7 @@ class OasiParser(BaseParser):
             for evaluator, text in ts:
                 evaluation = evaluator.format(last_value)
                 if eval(evaluation):
-                    time = self._convert_datetime(last_time)
-                    time = time.strftime(self.config.time_format)
+                    time = printable_time(last_time, self.config)
                     text = text.format(last_value, time)
                     text = '{} - {}'.format(self.name, text)
 
