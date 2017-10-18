@@ -7,7 +7,7 @@ services:
       - ./ftp/meteogram:/app/data/meteogram
       - ./ftp/informations:/app/data/static/informations
     ports:
-      - "80:80"
+      - "5080:80"
     environment:
       - FLASK_APP=main.py
       - FLASK_DEBUG=1
@@ -21,6 +21,10 @@ services:
     ports:
       - "20-21:20-21"
       - "21100-21110:21100-21110"
+    volumes:
+      - ./ftp/cpc:/home/vsftpd/meteosuisse/cpc
+      - ./ftp/meteogram:/home/vsftpd/meteosuisse/meteogram
+      - ./ftp/informations:/home/vsftpd/meteosuisse/informations
     environment:
       - FTP_USER=meteosuisse
       - FTP_PASS=Rew*Kapkut
