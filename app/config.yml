@@ -1,4 +1,5 @@
 app_name: "FaloppiaWarn"
+url: "faloppia.opengis.ch"
 fake_sms_mode:
   enable: false # enabling this results in not sending ANY sms
   status: 202

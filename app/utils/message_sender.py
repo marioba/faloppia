@@ -106,7 +106,7 @@ class MessageSender(object):
             receivers = '<'.join(receivers)
         if retry == self.RETRY:
             # add the prefix only the first time
-            text = '{} - {}'.format(self.config.app_name, text)
+            text = '{} - {}'.format(self.config.url, text)
 
         params = {
             'dst': receivers,
