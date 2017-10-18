@@ -11,20 +11,19 @@ services:
     environment:
       - FLASK_APP=main.py
       - FLASK_DEBUG=1
-      - VIRTUAL_HOST=faloppia.opengis.ch
       - 'RUN=flask run --host=0.0.0.0 --port=80'
     command: flask run --host=0.0.0.0 --port=80
     # Infinite loop, to keep it alive, for debugging
     # command: bash -c "while true; do echo 'sleeping...' && sleep 10; done"
 
-  ftp:
-    image: arkenklo/docker-proftpd:1.0
+  vsftpd:
+    image: million12/vsftpd
     ports:
-      - "5021:21"
-      - "5020:20"
+      - "20-21:20-21"
+      - "21100-21110:21100-21110"
     environment:
-     USERNAME: faloppia
-     PASSWORD: Alveo666!
-     FTP_ROOT: /ftp
-    volumes:
-      - ./ftp:/ftp
+      - FTP_USER=meteosuisse
+      - FTP_PASS=Rew*Kapkut
+      - ANONYMOUS_ACCESS=false
+      - UPLOADED_FILES_WORLD_READABLE=true
+      - CUSTOM_PASSIVE_ADDRESS=false
