@@ -21,7 +21,7 @@ services:
     image: arkenklo/docker-proftpd:1.0
     ports:
       - "5021:21"
-     - "5020:20"
+      - "5020:20"
     environment:
      USERNAME: faloppia
      PASSWORD: Alveo666!
