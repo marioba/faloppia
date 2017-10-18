@@ -16,3 +16,15 @@ services:
     command: flask run --host=0.0.0.0 --port=80
     # Infinite loop, to keep it alive, for debugging
     # command: bash -c "while true; do echo 'sleeping...' && sleep 10; done"
+
+  ftp:
+    image: arkenklo/docker-proftpd:1.0
+    ports:
+      - "5021:21"
+#     - "5020:20"
+    environment:
+     USERNAME: faloppia
+     PASSWORD: Alveo666!
+     FTP_ROOT: /ftp
+    volumes:
+      - ./ftp:/ftp
