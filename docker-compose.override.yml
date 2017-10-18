@@ -3,6 +3,9 @@ services:
   web:
     volumes:
       - ./app:/app
+      - ./ftp/cpc:/app/data/cpc
+      - ./ftp/meteogram:/app/data/meteogram
+      - ./ftp/informations:/app/data/static/informations
     ports:
       - "5080:80"
     environment:
