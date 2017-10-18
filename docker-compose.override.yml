@@ -7,7 +7,7 @@ services:
       - ./ftp/meteogram:/app/data/meteogram
       - ./ftp/informations:/app/data/static/informations
     ports:
-      - "5080:80"
+      - "80:80"
     environment:
       - FLASK_APP=main.py
       - FLASK_DEBUG=1
