@@ -128,18 +128,17 @@ class CpcParser(BaseParser):
         try:
             with open(file_path, 'r') as f:
                 data = f.read()
-                js_data = json.loads(data[len(prefix):])
+                current_data = json.loads(data[len(prefix):])
         except FileNotFoundError:
-            js_data = None
+            current_data = {}
 
         max_values = self.timespan.days * 24 * 60 / self.settings[
             'data_update_freq']
         for accu, data in self.data.items():
+            if accu not in current_data:
+                current_data[accu] = {'rain': [], 'past': []}
             for name in ['rain', 'past']:
-                try:
-                    data_list = js_data[accu][name]
-                except TypeError:
-                    data_list = []
+                data_list = current_data[accu][name]
                 if len(data_list) > max_values:
                     cut = int(len(data_list) - max_values)
                     del data_list[0:cut]
@@ -147,4 +146,4 @@ class CpcParser(BaseParser):
 
         with open(file_path, 'w+') as f:
             f.write(prefix)
-            json.dump(js_data, f, sort_keys=True, indent=2)
+            json.dump(current_data, f, sort_keys=True, indent=2)
