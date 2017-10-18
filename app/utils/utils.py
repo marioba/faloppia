@@ -83,7 +83,7 @@ def printable_time(value, config):
 
 def get_lock_status(config):
     try:
-        with open(config.lock_file) as lock_file:
+        with open(config.lock_file, 'r') as lock_file:
             lock_status = json.load(lock_file)
     except (JSONDecodeError, FileNotFoundError):
         lock_status = {}

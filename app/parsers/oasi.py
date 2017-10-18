@@ -52,7 +52,7 @@ class OasiParser(BaseParser):
                 value = None
             js_data.append([timestamp, value])
         file_path = os.path.join(self.settings['data_dir'], 'latest.js')
-        with open(file_path, 'a') as f:
+        with open(file_path, 'w+') as f:
             f.write('oasi_values=')
             json.dump(js_data, f, sort_keys=True, indent=2)
 
