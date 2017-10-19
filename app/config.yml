@@ -14,7 +14,7 @@ username: 'faloppia'
 password: 'alveo666'
 
 # SMS numbers
-sender_number: "+41666666666"
+sender_number: "RiverWarn"
 alert_numbers:
   level_0:
     # this numbers receive an sms each time a calculation is run even if the
@@ -51,7 +51,7 @@ time_format: '%Y-%m-%d %H:%M:%S'
 parsers:
   cpc:
     active: true
-    data_update_freq: 10 # minutes
+    allowed_data_delay: 15 # minutes
     alert_lock: # dict of kwargs for timedelta
       hours: 6
     timespan: # dict of kwargs for timedelta

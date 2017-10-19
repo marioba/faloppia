@@ -28,7 +28,7 @@ class CpcParser(BaseParser):
             raise FatalError('No CPC XML file found')
 
         latest_file_date = self._get_file_date(latest_file)
-        allowed_delay = self.settings['data_update_freq']
+        allowed_delay = self.settings['allowed_data_delay']
         allowed_delay = datetime.timedelta(minutes=allowed_delay)
         delay = self.now - latest_file_date
 
@@ -94,8 +94,8 @@ class CpcParser(BaseParser):
             past = float(rain) * float(percent) / 100.0
             plausibility = get_elem_text(data_section, 'plausibility_reg_rain')
         except AttributeError:
-            rain = None
-            past = None
+            rain = 0
+            past = 0
             plausibility = None
 
         data['rain'] = rain
@@ -138,7 +138,7 @@ class CpcParser(BaseParser):
             current_data = {}
 
         max_values = self.timespan.days * 24 * 60 / self.settings[
-            'data_update_freq']
+            'allowed_data_delay']
         for accu, data in self.data.items():
             if accu not in current_data:
                 current_data[accu] = {'rain': [], 'past': []}
