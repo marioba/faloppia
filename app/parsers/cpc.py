@@ -38,7 +38,8 @@ class CpcParser(BaseParser):
             self._send_it_alert(message)
         self.data = self._parse_xml(latest_file)
 
-    def _get_file_date(self, latest_file):
+    @staticmethod
+    def _get_file_date(latest_file):
         file_date = str(latest_file[:-4].split('VRAA71.')[1])
         fmt = "%Y%m%d%H%M"
         file_date = datetime.datetime.strptime(file_date, fmt)
