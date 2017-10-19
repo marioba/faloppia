@@ -5,10 +5,11 @@ import logging
 
 import xml.etree.ElementTree as ET
 
+import pytz
+
 from app.parsers.base_parser import BaseParser
 from app.utils.message_sender import FatalError
-from app.utils.utils import get_latest_file, get_elem_text, \
-    StandardAlertLevels, printable_time
+from app.utils.utils import get_latest_file, get_elem_text, printable_time
 
 
 class CpcParser(BaseParser):
@@ -28,17 +29,20 @@ class CpcParser(BaseParser):
 
         latest_file_date = self._get_file_date(latest_file)
         allowed_delay = self.settings['data_update_freq']
-        now = int(self.now.strftime('%y%j%H%M'))
-        delay = now - latest_file_date
+        allowed_delay = datetime.timedelta(minutes=allowed_delay)
+        delay = self.now - latest_file_date
+
         if delay > allowed_delay:
-            message = 'The last CPC file is {} minutes old ({})'.format(
+            message = 'The last CPC file is {} old ({})'.format(
                 delay, latest_file_date)
             self._send_it_alert(message)
         self.data = self._parse_xml(latest_file)
 
-    @staticmethod
-    def _get_file_date(latest_file):
-        file_date = int(latest_file[:-4].split('TAF')[1])
+    def _get_file_date(self, latest_file):
+        file_date = str(latest_file[:-4].split('VRAA71.')[1])
+        fmt = "%Y%m%d%H%M"
+        file_date = datetime.datetime.strptime(file_date, fmt)
+        file_date = pytz.utc.localize(file_date)
         return file_date
 
     def _find_latest_xml(self):
