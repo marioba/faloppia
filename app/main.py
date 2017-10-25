@@ -148,6 +148,8 @@ def parse():
         content = str(parsed)
         code = 200
     except Exception as e:
+        if CONFIG.fake_sms_mode['enable']:
+            raise
         content = str(e)
         code = 500
 

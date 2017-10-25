@@ -89,9 +89,9 @@ class CpcParser(BaseParser):
         data_section = alert.find(data_section)
 
         try:
-            rain = get_elem_text(data_section, 'test_stat')
-            percent = get_elem_text(data_section, 'perc_past_R')
-            past = float(rain) * float(percent) / 100.0
+            rain = float(get_elem_text(data_section, 'test_stat'))
+            percent = float(get_elem_text(data_section, 'perc_past_R'))
+            past = rain * percent / 100.0
             plausibility = get_elem_text(data_section, 'plausibility_reg_rain')
         except AttributeError:
             rain = 0

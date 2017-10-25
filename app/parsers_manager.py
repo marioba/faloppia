@@ -32,6 +32,8 @@ class ParsersManager(object):
                 instance.run()
                 parsed.append(name)
             except Exception as e:
+                if self.config.fake_sms_mode['enable']:
+                    raise
                 self.log_alert(StandardAlertLevels.it, str(e))
         return 'OK: {}'.format(parsed)
 
