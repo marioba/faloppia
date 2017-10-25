@@ -1,4 +1,9 @@
 app_name: "FaloppiaWarnTest"
+url: "faloppia.opengis.ch"
+
+fake_sms_mode:
+  enable: true # enabling this results in not sending ANY sms
+  status: 202
 
 # PLIVO SMS Framework
 plivo_auth_id: "plivo_auth_id"
