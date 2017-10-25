@@ -144,10 +144,12 @@ class CpcParser(BaseParser):
                 current_data[accu] = {'rain': [], 'past': []}
             for name in ['rain', 'past']:
                 data_list = current_data[accu][name]
-                if len(data_list) > max_values:
-                    cut = int(len(data_list) - max_values)
-                    del data_list[0:cut]
-                data_list.append([data['time'], data[name]])
+                timestamps = [t[0] for t in data_list]
+                if data['time'] not in timestamps:
+                    if len(data_list) > max_values:
+                        cut = int(len(data_list) - max_values)
+                        del data_list[0:cut]
+                    data_list.append([data['time'], data[name]])
 
         with open(file_path, 'w+') as f:
             f.write(prefix)
