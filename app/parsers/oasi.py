@@ -24,7 +24,7 @@ class OasiParser(BaseParser):
         timespan = '{}/{}'.format(start_str, now_str)
         url = 'https://geoservice.ist.supsi.ch/psos/sos?service=SOS&version=1.0.0&request=GetObservation&offering=temporary&procedure=Q_FAL_CHIA&observedProperty=urn:ogc:def:parameter:x-istsos:1.0:river:water:discharge&responseFormat=application/json&eventTime={}'.format(timespan)
         try:
-            with urllib.request.urlopen(url) as url:
+            with urllib.request.urlopen(url, timeout=15) as url:
                 data = json.loads(url.read().decode())
                 data = data['ObservationCollection']['member'][0]
                 self.data = data['result']['DataArray']['values']
