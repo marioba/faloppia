@@ -44,9 +44,6 @@ class BaseParser(object):
     def _is_alert_locked(self, level, evaluator):
         logging.debug('checking: {} {} {}'.format(self.name, level, evaluator))
         level = 'level_{}'.format(level)
-        if level == StandardAlertLevels.it:
-            # always send IT alerts
-            return False
 
         lock_duration = timedelta(**self.settings['alert_lock'])
         lock_expire = self.now - lock_duration
@@ -62,8 +59,10 @@ class BaseParser(object):
         except (KeyError, JSONDecodeError):
             return False
 
-    def _send_it_alert(self, text):
-        self._send_alert(StandardAlertLevels.it, text, None)
+    def _send_it_alert(self, text, group):
+        if group is None:
+            group = text
+        self._send_alert(StandardAlertLevels.it, text, group)
 
     def _send_alert(self, level, text, evaluator):
         if self._is_alert_locked(level, evaluator):

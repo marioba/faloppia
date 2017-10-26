@@ -33,6 +33,9 @@ it_alert_numbers:
   - "+41794672470"
   - "+41791960173"
 
+it_alert_lock: # dict of kwargs for timedelta
+      hours: 6
+
 
 # {} is replaced with the details of the alert
 alert_text:

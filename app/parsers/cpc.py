@@ -35,7 +35,7 @@ class CpcParser(BaseParser):
         if delay > allowed_delay:
             message = 'The last CPC file is {} old ({})'.format(
                 delay, latest_file_date)
-            self._send_it_alert(message)
+            self._send_it_alert(message, 'old CPC')
         self.data = self._parse_xml(latest_file)
 
     @staticmethod
