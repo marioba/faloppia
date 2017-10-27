@@ -36,7 +36,7 @@ class ParsersManager(object):
                 if self.config.fake_sms_mode['enable']:
                     raise
         response = 'OK: {}'.format(parsed)
-        self.log_event('parsing ended with: {}'.format(response))
+        self.log_event('parsing ended', 'response: {}'.format(response))
         return response
 
     def log_alert(self, level, text, send_sms=True):
