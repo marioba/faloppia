@@ -32,10 +32,12 @@ class ParsersManager(object):
                 instance.run()
                 parsed.append(name)
             except Exception as e:
+                self.log_alert(StandardAlertLevels.it, str(e))
                 if self.config.fake_sms_mode['enable']:
                     raise
-                self.log_alert(StandardAlertLevels.it, str(e))
-        return 'OK: {}'.format(parsed)
+        response = 'OK: {}'.format(parsed)
+        self.log_event('parsing ended with: {}'.format(response))
+        return response
 
     def log_alert(self, level, text, send_sms=True):
         if send_sms:
