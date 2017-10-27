@@ -32,6 +32,7 @@ it_alert_numbers:
   # this is for technical issues on the software side
   - "+41794672470"
   - "+41791960173"
+  - "+41787330159"
 
 it_alert_lock: # dict of kwargs for timedelta
       hours: 6
