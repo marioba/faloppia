@@ -39,7 +39,7 @@ var myConfig = {
         },
         transform: {
             type: 'date',
-            all: '%d.%m.%Y<br>%h:%i:%s'
+            all: '%d.%m.%Y<br>%H:%i:%s'
         }
     },
     scaleY: {
