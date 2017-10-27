@@ -1,6 +1,7 @@
 import json
 import logging
 import os
+import time
 
 from flask.helpers import url_for
 from json2html import *
@@ -77,7 +78,8 @@ def navigation_bar():
 @app.route('/')
 @requires_auth
 def index():
-    return render_template('index.html', config=CONFIG)
+    now = int(time.time())
+    return render_template('index.html', config=CONFIG, now=now)
 
 
 @app.route('/about')

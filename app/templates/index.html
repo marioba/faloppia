@@ -10,8 +10,8 @@
         <div id="water_chart"></div>
         <a class="zc-ref" href="https://www.zingchart.com">Powered by
             ZingChart</a>
-        <img src="{{ url_for('data_file', filename='meteogram/meteog-sr_Stabio.png') }}"/>
-        <img src="{{ url_for('data_file', filename='meteogram/meteog-mr_Stabio.png') }}"/>
+        <img src="{{ url_for('data_file', filename='meteogram/meteog-sr_Stabio.png') }}?t={{ now }}"/>
+        <img src="{{ url_for('data_file', filename='meteogram/meteog-mr_Stabio.png') }}?t={{ now }}"/>
     </div>
     {{ super() }}
 
@@ -19,8 +19,8 @@
 {% block scripts %}
     {{ super() }}
     <script src="https://cdn.zingchart.com/zingchart.min.js"></script>
-    <script src="{{ url_for('data_file', filename='oasi/latest.js') }}"></script>
-    <script src="{{ url_for('data_file', filename='cpc/latest.js') }}"></script>
+    <script src="{{ url_for('data_file', filename='oasi/latest.js') }}?t={{ now }}"></script>
+    <script src="{{ url_for('data_file', filename='cpc/latest.js') }}?t={{ now }}"></script>
     <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
 
 {% endblock %}
